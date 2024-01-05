@@ -3,10 +3,7 @@
 #include <chrono>
 #include <thread>
 
-#include "Game.h"
-
-Game* game = nullptr;
-// Automat* automat = nullptr;
+#include "StartButton.h"
 
 void printMat1(bool** mat, int n, int m) {
 	// system("CLS");
@@ -19,7 +16,9 @@ void printMat1(bool** mat, int n, int m) {
 }
 
 int main(int argc, char *argv[]) {
-	std::ifstream file("D:\\Programming\\1) projects\\CellAutomat\\presets\\5.txt");
+	std::vector<Widget*> widgets;
+
+	std::ifstream file("../presets/8.txt");
 
 	if (!file) {
 		std::cout << "File is not opened" << std::endl;
@@ -31,10 +30,10 @@ int main(int argc, char *argv[]) {
 	int m;
 	file >> m;
 
-	int scaleX;
+	float scaleX;
 	file >> scaleX;
 
-	int scaleY;
+	float scaleY;
 	file >> scaleY;
 
 	bool** field = new bool* [n];
@@ -55,42 +54,71 @@ int main(int argc, char *argv[]) {
 		i++;
 	}
 
-	// field[n - 1][m - 1] = (p ? true : false);
+	// printMat1(field, n, m);
 
-	game = new Game("test", 
-					SDL_WINDOWPOS_CENTERED, 
-					SDL_WINDOWPOS_CENTERED, 
-					m*scaleX, 
-					n*scaleY, 
-					scaleX, 
-					scaleY, 
-					0, 
-					n, 
-					m, 
-					field);
 
-	char a;
-	while (game->running()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(60));
-		game->handleEvents();
-		game->update();
-		game->render();
+
+	//Window* window = new Window("test", 
+	//				SDL_WINDOWPOS_CENTERED, 
+	//				SDL_WINDOWPOS_CENTERED, 
+	//				m*scaleX, 
+	//				n*scaleY, 
+	//				scaleX, 
+	//				scaleY, 
+	//				0);
+
+	Window* window = new Window("test",
+					SDL_WINDOWPOS_CENTERED,
+					SDL_WINDOWPOS_CENTERED,
+					640,
+					400,
+					scaleX,
+					scaleY,
+					0);
+
+	AutomatonService* automatonService = new AutomatonService(n, m, field);
+
+	AutomatonController* automatonController = new AutomatonController(automatonService);
+
+	Field* winField = new Field(window, automatonController, 0, 0, m * scaleX, n * scaleY);
+	StartButton* startButton = new StartButton(window, winField, 430, 330, 210, 70, (char*)"../resources/StartButton.bmp");
+
+	widgets.push_back(winField);
+	widgets.push_back(startButton);
+
+	while (window->running()) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(30));
+
+		// (1) Render and present all the stuff;
+		window->cleanRender();
+		window->render();
+
+		for (auto widget : widgets) {
+			widget->render();
+		}
+
+		window->presentRender();
+
+		// (2) Update
+		for (auto widget : widgets) {
+			widget->update();
+		}
+
+		window->update();
+
+		// (3) HandleEvents;
+		static SDL_Event event;
+		SDL_PollEvent(&event);
+
+		for (auto widget : widgets) {
+			widget->handleEvent(&event);
+		}
+
+		window->handleEvent(&event);
+
 	}
 
-	game->clean();
-
-	
-
-	//// printMat1(field, n, m);
-
-	//automat = new Automat(n, m, field);
-	//char dummy;
-
-	//for (int i = 0;; i++) {
-	//	std::this_thread::sleep_for(std::chrono::milliseconds(33));
-	//	system("CLS");
-	//	automat->next();
-	//}
+	window->clean();
 
 	return 0;
 }

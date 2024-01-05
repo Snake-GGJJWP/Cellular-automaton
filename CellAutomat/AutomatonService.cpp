@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include "Automat.h";
+#include "AutomatonService.h"
 
 void printMat(bool** mat, int n, int m);
-
-Automat::Automat(int n, int m) {
+AutomatonService::AutomatonService(int n, int m) {
 	// remember field's size
 	h = n;
 	w = m;
@@ -16,7 +15,7 @@ Automat::Automat(int n, int m) {
 	printMat(field, n, m);
 }
 
-Automat::Automat(int n, int m, bool** inField) {
+AutomatonService::AutomatonService(int n, int m, bool** inField) {
 	h = n;
 	w = m;
 
@@ -28,7 +27,7 @@ Automat::Automat(int n, int m, bool** inField) {
 	// printMat(field, h, w);
 }
 
-void Automat::next() {
+void AutomatonService::next() {
 	bool** newField = new bool* [h];
 	for (int i = 0; i < h; i++) {
 		newField[i] = new bool[w];
@@ -66,12 +65,20 @@ void Automat::next() {
 		}
 	}
 
+	// Free memory
+	for (int i = 0; i < h; i++)
+	{
+		delete[] field[i];
+	}
+
+	delete[] field;
+
 	field = newField;
 
 	// printMat(field, h, w);
 }
 
-void Automat::setField(bool** newField) {
+void AutomatonService::setField(bool** newField) {
 	for (int i = 0; i < h; i++) {
 		for (int j = 0; j < w; j++) {
 			field[i][j] = newField[i][j];
@@ -79,7 +86,7 @@ void Automat::setField(bool** newField) {
 	}
 }
 
-void Automat::initField() {
+void AutomatonService::initField() {
 	field = new bool* [h];
 	for (int i = 0; i < h; i++) {
 		field[i] = new bool[w];

@@ -130,13 +130,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Automat.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="AutomatonController.cpp" />
+    <ClCompile Include="AutomatonService.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Automat.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="AutomatonController.h" />
+    <ClInclude Include="AutomatonService.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="StartButton.h" />
+    <ClInclude Include="Widget.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
