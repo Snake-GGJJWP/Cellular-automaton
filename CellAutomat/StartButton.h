@@ -5,7 +5,7 @@
 class StartButton : public Button
 {
 public:
-	StartButton(Window* win, Field* destField, int x, int y, int w, int h, char* pathToTexture);
+	StartButton(Window* win, Field* destField, SDL_Rect container, char* pathToTexture);
 	void handleEvent(SDL_Event*) override;
 	void render() override;
 private:

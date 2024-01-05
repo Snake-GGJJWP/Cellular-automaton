@@ -1,5 +1,6 @@
 #pragma once
 
+
 // Maybe use generics? templates
 /*
 * TODO:
@@ -29,7 +30,7 @@ public:
 
 private:
 	
-	// We use bool because we represent only 2 states: live or dead. Save memory.
+	// We use bool because we represent only 2 states: live or dead. Save memory... Probably
 	bool** field; // 2d array
 	int w, h;
 

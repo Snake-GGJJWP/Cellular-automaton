@@ -3,12 +3,9 @@
 
 StartButton::StartButton(Window* win,
 						 Field* destField,
-						 int x, 
-						 int y, 
-						 int w, 
-						 int h,
+						 SDL_Rect container,
 						 char* pathToTexture) : Button(win) {
-	container = { x, y, w, h }; // maybe make it a pointer?
+	this->container = container;
 
 	renderer = win->getRenderer();
 
@@ -22,7 +19,6 @@ StartButton::StartButton(Window* win,
 void StartButton::render() {
 	SDL_RenderCopy(renderer, buttonTexture, NULL, &container);
 
-	// SDL_RenderDrawRect(renderer, &container);
 }
 
 void StartButton::handleEvent(SDL_Event* event) {

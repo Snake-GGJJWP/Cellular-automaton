@@ -4,6 +4,10 @@
 #include <thread>
 
 #include "StartButton.h"
+#include "MenuPanel.h"
+
+const int WIN_WIDTH = 850;
+const int WIN_HEIGHT = 600;
 
 void printMat1(bool** mat, int n, int m) {
 	// system("CLS");
@@ -18,7 +22,7 @@ void printMat1(bool** mat, int n, int m) {
 int main(int argc, char *argv[]) {
 	std::vector<Widget*> widgets;
 
-	std::ifstream file("../presets/8.txt");
+	std::ifstream file("../presets/9.txt");
 
 	if (!file) {
 		std::cout << "File is not opened" << std::endl;
@@ -70,20 +74,31 @@ int main(int argc, char *argv[]) {
 	Window* window = new Window("test",
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
-					640,
-					400,
+					WIN_WIDTH,
+					WIN_HEIGHT,
 					scaleX,
 					scaleY,
-					0);
+					1);
 
 	AutomatonService* automatonService = new AutomatonService(n, m, field);
 
 	AutomatonController* automatonController = new AutomatonController(automatonService);
 
-	Field* winField = new Field(window, automatonController, 0, 0, m * scaleX, n * scaleY);
-	StartButton* startButton = new StartButton(window, winField, 430, 330, 210, 70, (char*)"../resources/StartButton.bmp");
+	Field* winField = new Field(window, 
+								automatonController, 
+								SDL_Rect{0, 0, (int)(m * scaleX), (int) (n * scaleY)});
+	StartButton* startButton = new StartButton(window, 
+											   winField, 
+											   SDL_Rect {620, 20, 210, 70}, 
+										       (char*)"../resources/StartButton.bmp");
+	MenuPanel* menuPanel = new MenuPanel(window,
+										 SDL_Rect{ 600, 0, 250, 600 },
+										 SDL_Color{ 255, 255, 255, 0 });
 
+
+	// Order is important!!!
 	widgets.push_back(winField);
+	widgets.push_back(menuPanel);
 	widgets.push_back(startButton);
 
 	while (window->running()) {

@@ -5,7 +5,7 @@
 class Field : public Widget
 {
 public:
-	Field(Window* window, AutomatonController* automaotnController, int x, int y, int w, int h);
+	Field(Window* window, AutomatonController* automaotnController, SDL_Rect container);
 	void handleEvent(SDL_Event*) override;
 	void render() override;
 	void update() override;

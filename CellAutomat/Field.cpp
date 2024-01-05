@@ -13,11 +13,8 @@ void printMatField(bool** mat, int n, int m) {
 
 Field::Field(Window* window, 
 			AutomatonController* automatonController,
-			int x,
-			int y,
-			int w,
-			int h) : Widget(window) {
-	container = { x, y, w, h };
+			SDL_Rect container) : Widget(window) {
+	this->container = container;
 
 	this->automatonController = automatonController;
 	fieldHeight = automatonController->getHeight();
@@ -38,14 +35,14 @@ void Field::render() {
 
 	SDL_SetRenderDrawColor(renderer, 225, 146, 67, 255);
 	SDL_RenderDrawRect(renderer, &container);
-	SDL_SetRenderDrawColor(renderer, 225, 146, 67, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &container);
 	SDL_SetRenderDrawColor(renderer, 225, 255, 255, 255);
 	SDL_RenderDrawPoint(renderer, container.x + 8, container.y + 8);
 
 	for (int i = 0; i < fieldHeight; i++) {
 		for (int j = 0; j < fieldWidth; j++) {
-			if (field[i][j]) { SDL_RenderDrawPoint(renderer, j+container.x+1, i+container.y+1); }
+			if (field[i][j]) { SDL_RenderDrawPoint(renderer, j+container.x, i+container.y); }
 		}
 	}
 	
