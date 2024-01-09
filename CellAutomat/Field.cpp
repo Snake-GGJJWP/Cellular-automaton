@@ -27,12 +27,29 @@ Field::Field(Window* window,
 }
 
 void Field::handleEvent(SDL_Event* event) {
+	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered && event->button.button == SDL_BUTTON_LEFT) {
+		std::cout << "Field clicked!\n";
+
+		int fieldX = (event->button.x - container.x) / cellSize;
+		int fieldY = (event->button.y - container.y) / cellSize;
+
+		std::cout << "Calculated coord: (" << fieldX << ", " << fieldY << ")\n";
+		
+		// Checking just in case
+		if (fieldX >= fieldWidth || fieldY >= fieldHeight) {
+			std::cout << "Out of field!\n";
+			std::cout << "Mouse coord: (" << event->button.x << ", " << event->button.y << ")\n";
+			std::cout << "Field's size: " << fieldWidth << " " << fieldHeight << "\n";
+			return;
+		}
+		field[fieldY][fieldX] = !field[fieldY][fieldX];
+	}
+	else if (event->type == SDL_MOUSEMOTION) {
+		isHovered = isCursorOnField(event->motion.x, event->motion.y);
+	}
 }
 
 void Field::render() {
-	if (!isRunning) {
-		return;
-	}
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &container);
@@ -56,4 +73,11 @@ void Field::update() {
 	}
 
 	field = automatonController->getNextIteration();
+}
+
+bool Field::isCursorOnField(int x, int y) {
+	return (x > container.x &&
+			x < container.x + cellSize*fieldWidth &&
+			y > container.y &&
+			y < container.y + cellSize*fieldHeight);
 }

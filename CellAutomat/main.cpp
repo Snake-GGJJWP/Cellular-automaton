@@ -22,7 +22,7 @@ void printMat1(bool** mat, int n, int m) {
 int main(int argc, char *argv[]) {
 	std::vector<Widget*> widgets;
 
-	std::ifstream file("../presets/5.txt"); // For now we'll read from file
+	std::ifstream file("../presets/11.txt"); // For now we'll read from file
 
 	if (!file) {
 		std::cout << "File is not opened" << std::endl;
@@ -102,6 +102,9 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(startButton);
 
 	while (window->running()) {
+
+		// Limit framerate
+		// Problem: It affects handleEvent functions; it should affect only rendering and updating.
 		std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
 		// (1) Render and present all the stuff;

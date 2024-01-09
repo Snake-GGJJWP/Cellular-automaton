@@ -14,11 +14,14 @@ public:
 	void switchRunning() { isRunning = !isRunning; }
 
 private:
+	bool isCursorOnField(int x, int y);
+
 	bool** field;
 	int fieldHeight;
 	int fieldWidth;
 	int cellSize;
 	bool isRunning = false;
+	bool isHovered = false;
 
 	SDL_Rect container;
 
