@@ -17,6 +17,7 @@ private:
 	bool** field;
 	int fieldHeight;
 	int fieldWidth;
+	int cellSize;
 	bool isRunning = false;
 
 	SDL_Rect container;

@@ -19,6 +19,7 @@ Field::Field(Window* window,
 	this->automatonController = automatonController;
 	fieldHeight = automatonController->getHeight();
 	fieldWidth = automatonController->getWidth();
+	cellSize = (fieldHeight > fieldWidth) ? container.h / fieldHeight : container.w / fieldWidth;
 	renderer = window->getRenderer();
 
 	field = automatonController->getNextIteration();
@@ -33,16 +34,17 @@ void Field::render() {
 		return;
 	}
 
-	SDL_SetRenderDrawColor(renderer, 225, 146, 67, 255);
-	SDL_RenderDrawRect(renderer, &container);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &container);
 	SDL_SetRenderDrawColor(renderer, 225, 255, 255, 255);
-	SDL_RenderDrawPoint(renderer, container.x + 8, container.y + 8);
 
 	for (int i = 0; i < fieldHeight; i++) {
 		for (int j = 0; j < fieldWidth; j++) {
-			if (field[i][j]) { SDL_RenderDrawPoint(renderer, j+container.x, i+container.y); }
+			//if (field[i][j]) { SDL_RenderDrawPoint(renderer, j+container.x, i+container.y); }
+			if (field[i][j]) {
+				SDL_Rect cell = SDL_Rect{ (container.x + j) * cellSize, (container.y + i) * cellSize, cellSize, cellSize };
+				SDL_RenderFillRect(renderer, &cell);
+			}
 		}
 	}
 	

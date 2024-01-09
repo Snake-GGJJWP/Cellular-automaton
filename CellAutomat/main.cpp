@@ -22,7 +22,7 @@ void printMat1(bool** mat, int n, int m) {
 int main(int argc, char *argv[]) {
 	std::vector<Widget*> widgets;
 
-	std::ifstream file("../presets/9.txt");
+	std::ifstream file("../presets/5.txt"); // For now we'll read from file
 
 	if (!file) {
 		std::cout << "File is not opened" << std::endl;
@@ -78,15 +78,15 @@ int main(int argc, char *argv[]) {
 					WIN_HEIGHT,
 					scaleX,
 					scaleY,
-					1);
+					0);
 
 	AutomatonService* automatonService = new AutomatonService(n, m, field);
 
 	AutomatonController* automatonController = new AutomatonController(automatonService);
 
-	Field* winField = new Field(window, 
-								automatonController, 
-								SDL_Rect{0, 0, (int)(m * scaleX), (int) (n * scaleY)});
+	Field* winField = new Field(window,
+								automatonController,
+								SDL_Rect{ 0, 0, 600, 600 });
 	StartButton* startButton = new StartButton(window, 
 											   winField, 
 											   SDL_Rect {620, 20, 210, 70}, 
