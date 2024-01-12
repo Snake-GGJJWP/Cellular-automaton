@@ -9,6 +9,25 @@
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
 
+/*
+* TODO:
+* 1) Make drawing easier
+*	1.1) Either make grid or make tiles brighter on hover
+*	1.2) Paint-like drawing (pick a color, hold mouth to draw)
+* 
+* 2) Make customizable automotons
+*	2.1) Apply B../S.. rule (string -> rules parser)
+*	2.2) Apply generations rules 
+*	// --- FOR LATER ---
+*	2.3) Apply neighbourhood customization (?) 
+*	2.4) Apply Hensel notation
+*	2.5) Apply "Larger than life" automatons
+*	2.6) Others?
+*	// -----------
+* 
+* 3) Optimize rendering algorithms, frame limitting.
+*/
+
 void printMat1(bool** mat, int n, int m) {
 	// system("CLS");
 	for (int i = 0; i < n; i++) {
@@ -22,7 +41,7 @@ void printMat1(bool** mat, int n, int m) {
 int main(int argc, char *argv[]) {
 	std::vector<Widget*> widgets;
 
-	std::ifstream file("../presets/11.txt"); // For now we'll read from file
+	std::ifstream file("../presets/12.txt"); // For now we'll read from file
 
 	if (!file) {
 		std::cout << "File is not opened" << std::endl;
@@ -93,7 +112,7 @@ int main(int argc, char *argv[]) {
 										       (char*)"../resources/StartButton.bmp");
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 250, 600 },
-										 SDL_Color{ 255, 255, 255, 0 });
+										 SDL_Color{ 255, 255, 255, 255 });
 
 
 	// Order is important!!!

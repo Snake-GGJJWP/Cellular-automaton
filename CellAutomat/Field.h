@@ -13,6 +13,9 @@ public:
 	// change isRunning from False to True and vice-versa
 	void switchRunning() { isRunning = !isRunning; }
 
+	// pass Field.field to AutomatonService
+	void setField();
+
 private:
 	bool isCursorOnField(int x, int y);
 
@@ -20,6 +23,8 @@ private:
 	int fieldHeight;
 	int fieldWidth;
 	int cellSize;
+
+	int cellHovered = -1; // -1 - if nothing hovered; 0 - w*h - number of cell hovered
 	bool isRunning = false;
 	bool isHovered = false;
 

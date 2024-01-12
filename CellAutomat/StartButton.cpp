@@ -24,6 +24,7 @@ void StartButton::render() {
 void StartButton::handleEvent(SDL_Event* event) {
 	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered) {
 		std::cout << "Button was clicked!" << std::endl;
+		field->setField();
 		field->switchRunning();
 	}
 	else if (event->type == SDL_MOUSEMOTION) {
