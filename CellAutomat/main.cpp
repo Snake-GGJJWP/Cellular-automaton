@@ -2,9 +2,11 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <vector>
 
 #include "StartButton.h"
 #include "MenuPanel.h"
+#include "FrameLimitter.h"
 
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
@@ -12,7 +14,7 @@ const int WIN_HEIGHT = 600;
 /*
 * TODO:
 * 1) Make drawing easier
-*	1.1) Either make grid or make tiles brighter on hover
+*	1.1) Either make grid or make tiles brighter on hover [+]
 *	1.2) Paint-like drawing (pick a color, hold mouth to draw)
 * 
 * 2) Make customizable automotons
@@ -73,31 +75,16 @@ int main(int argc, char *argv[]) {
 			std::cout << "Fuck" << std::endl;
 		}
 		field[i / m][i % m] = (p ? true : false);
-		// std::cout << "TEST: " << i / n << " " << i % m << " " << p << std::endl;
 		i++;
 	}
 
-	// printMat1(field, n, m);
-
-
-
-	//Window* window = new Window("test", 
-	//				SDL_WINDOWPOS_CENTERED, 
-	//				SDL_WINDOWPOS_CENTERED, 
-	//				m*scaleX, 
-	//				n*scaleY, 
-	//				scaleX, 
-	//				scaleY, 
-	//				0);
-
-	Window* window = new Window("test",
-					SDL_WINDOWPOS_CENTERED,
-					SDL_WINDOWPOS_CENTERED,
-					WIN_WIDTH,
-					WIN_HEIGHT,
-					scaleX,
-					scaleY,
-					0);
+	Window* window = new Window(WindowSettings {(char*) "Automaton", 
+												SDL_WINDOWPOS_CENTERED, 
+												SDL_WINDOWPOS_CENTERED, 
+												WIN_WIDTH, 
+												WIN_HEIGHT, 
+												-1, 
+												false});
 
 	AutomatonService* automatonService = new AutomatonService(n, m, field);
 
@@ -124,7 +111,10 @@ int main(int argc, char *argv[]) {
 
 		// Limit framerate
 		// Problem: It affects handleEvent functions; it should affect only rendering and updating.
-		std::this_thread::sleep_for(std::chrono::milliseconds(30));
+		// Heuristic solution: make framelimitter class controlled by start/stop button;
+		// when the game is in editting state - remove frame limitting by putting timeskip = 0s;
+		// when the game is in playing state  - set frame limitting at ~60 fps by putting timeskip = 1000/60 s
+		/*std::this_thread::sleep_for(std::chrono::milliseconds(30));*/
 
 		// (1) Render and present all the stuff;
 		window->cleanRender();

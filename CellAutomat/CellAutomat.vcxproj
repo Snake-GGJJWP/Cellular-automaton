@@ -133,6 +133,7 @@
     <ClCompile Include="AutomatonController.cpp" />
     <ClCompile Include="AutomatonService.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="FrameLimitter.cpp" />
     <ClCompile Include="MenuPanel.cpp" />
     <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="AutomatonService.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="FrameLimitter.h" />
     <ClInclude Include="MenuPanel.h" />
     <ClInclude Include="StartButton.h" />
     <ClInclude Include="Widget.h" />

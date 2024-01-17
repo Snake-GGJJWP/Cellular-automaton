@@ -18,4 +18,5 @@ private:
 	SDL_Rect container;
 	SDL_Texture* buttonTexture = nullptr;
 	SDL_Renderer* renderer;
+	FrameLimitter* frameLimitter;
 };

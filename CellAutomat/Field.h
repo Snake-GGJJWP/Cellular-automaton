@@ -27,6 +27,7 @@ private:
 	int cellHovered = -1; // -1 - if nothing hovered; 0 - w*h - number of cell hovered
 	bool isRunning = false;
 	bool isHovered = false;
+	bool isMouseButtonPressed = false;
 
 	SDL_Rect container;
 

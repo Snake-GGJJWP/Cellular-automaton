@@ -30,6 +30,8 @@ void Field::handleEvent(SDL_Event* event) {
 	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered && event->button.button == SDL_BUTTON_LEFT && !isRunning) {
 		std::cout << "Field clicked!\n";
 
+		isMouseButtonPressed = true;
+
 		int fieldX = (event->button.x - container.x) / cellSize;
 		int fieldY = (event->button.y - container.y) / cellSize;
 
@@ -44,6 +46,10 @@ void Field::handleEvent(SDL_Event* event) {
 		}
 		field[fieldY][fieldX] = !field[fieldY][fieldX];
 	}
+	else if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT) {
+		std::cout << "Released left button!\n";
+		isMouseButtonPressed = false;
+	}
 	else if (event->type == SDL_MOUSEMOTION) {
 		isHovered = isCursorOnField(event->motion.x, event->motion.y);
 
@@ -55,6 +61,11 @@ void Field::handleEvent(SDL_Event* event) {
 		}
 		else {
 			cellHovered = -1;
+		}
+
+		if (isMouseButtonPressed && !isRunning && isHovered) {
+			std::cout << "Drawing on: (" << cellHovered / fieldWidth << ", " << cellHovered % fieldWidth << ")\n";
+			field[cellHovered / fieldWidth][cellHovered % fieldWidth] = true;
 		}
 	}
 }

@@ -7,7 +7,7 @@
 * NOT RESIZABLE (maybe add it later)
 * It's better to make scaleX and scaleY such that width and height are dividable by them
 */
-Window::Window(const char* title, int xPos, int yPos, int width, int height, float scaleX, float scaleY, bool fullscreen) {
+Window::Window(WindowSettings winSet) {
 	// Start SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -15,16 +15,16 @@ Window::Window(const char* title, int xPos, int yPos, int width, int height, flo
 		return;
 	}
 
-	int flag = fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
+	int flag = winSet.fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
 
 	// Window init
-	window = SDL_CreateWindow(title, xPos, yPos, width, height, flag);
+	window = SDL_CreateWindow(winSet.title, winSet.xPos, winSet.yPos, winSet.width, winSet.height, flag);
 	if (!window) {
 		std::cout << "Failed to create a window..." << std::endl;
 		return;
 	}
-	screenWidth = width;
-	screenHeight = height;
+	screenWidth = winSet.width;
+	screenHeight = winSet.height;
 
 	// Renderer init
 	renderer = SDL_CreateRenderer(window, -1, 0);
@@ -32,12 +32,8 @@ Window::Window(const char* title, int xPos, int yPos, int width, int height, flo
 		std::cout << "Failed to create a renderer..." << std::endl;
 		return;
 	}
-	SDL_RenderSetScale(renderer, scaleX, scaleY);
-	scaledWidth = screenWidth / scaleX;
-	scaledHeight = screenHeight / scaleY;
 
-	// render();
-
+	frameLimitter = new FrameLimitter(winSet.fps);
 
 	isRunning = true;
 }
@@ -65,6 +61,8 @@ void Window::handleEvent(const SDL_Event* event) {
 
 void Window::render() {
 
+	frameLimitter->wait(); // my intuition tells it's so wrong...
+
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	/*bool** field = automat->getField();
 	for (int i = 0; i < automat->getHeight(); i++) {
@@ -85,6 +83,10 @@ void Window::presentRender() {
 
 void Window::update() {
 	frame++;
+}
+
+void Window::setFPS(int fps) {
+	frameLimitter->setFPS(fps);
 }
 
 void Window::clean() {

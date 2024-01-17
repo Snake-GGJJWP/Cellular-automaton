@@ -1,6 +1,8 @@
 #include <iostream>
 #include "StartButton.h"
 
+const int FRAME_LIMIT = 1;
+
 StartButton::StartButton(Window* win,
 						 Field* destField,
 						 SDL_Rect container,
@@ -8,6 +10,7 @@ StartButton::StartButton(Window* win,
 	this->container = container;
 
 	renderer = win->getRenderer();
+	frameLimitter = win->getFrameLimitter();
 
 	SDL_Surface* surface = SDL_LoadBMP(pathToTexture);
 	buttonTexture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -26,6 +29,9 @@ void StartButton::handleEvent(SDL_Event* event) {
 		std::cout << "Button was clicked!" << std::endl;
 		field->setField();
 		field->switchRunning();
+
+		// Heuristic
+		frameLimitter->setFPS(frameLimitter->getFPS() == FRAME_LIMIT ? -1 : FRAME_LIMIT);
 	}
 	else if (event->type == SDL_MOUSEMOTION) {
 		isHovered = isCursorOnButton(event->motion.x, event->motion.y);
