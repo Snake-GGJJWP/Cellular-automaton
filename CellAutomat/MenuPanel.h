@@ -24,10 +24,10 @@
 class MenuPanel: public Widget
 {
 public:
-	MenuPanel(Window* win, SDL_Rect container, SDL_Color fillingColor);
+	MenuPanel(Window* win, SDL_Rect container, char* pathToTexture);
 	void render() override;
 private:
 	SDL_Rect container;
-	SDL_Color fillingColor;
 	SDL_Renderer* renderer;
+	SDL_Texture* texture;
 };

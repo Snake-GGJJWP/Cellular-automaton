@@ -1,27 +1,36 @@
 #include <iostream>
 #include "StartButton.h"
 
-const int FRAME_LIMIT = 1;
+const int FRAME_LIMIT = 30;
 
 StartButton::StartButton(Window* win,
 						 Field* destField,
 						 SDL_Rect container,
-						 char* pathToTexture) : Button(win) {
+						 char* pathToTexture,
+						 char* pathToHover) : Button(win) {
 	this->container = container;
 
 	renderer = win->getRenderer();
 	frameLimitter = win->getFrameLimitter();
 
 	SDL_Surface* surface = SDL_LoadBMP(pathToTexture);
-	buttonTexture = SDL_CreateTextureFromSurface(renderer, surface);
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	SDL_Surface* surfaceHover = SDL_LoadBMP(pathToHover);
+	textureHover = SDL_CreateTextureFromSurface(renderer, surfaceHover);
 	SDL_FreeSurface(surface);
 	
 	field = destField;
 }
 
 void StartButton::render() {
-	SDL_RenderCopy(renderer, buttonTexture, NULL, &container);
-
+	if (isHovered) {
+		SDL_RenderCopy(renderer, textureHover, NULL, &container);
+	}
+	else {
+		SDL_RenderCopy(renderer, texture, NULL, &container);
+	}
 }
 
 void StartButton::handleEvent(SDL_Event* event) {

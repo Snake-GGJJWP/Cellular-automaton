@@ -10,12 +10,13 @@
 
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
+const int WIN_FPS = -1;
 
 /*
 * TODO:
 * 1) Make drawing easier
 *	1.1) Either make grid or make tiles brighter on hover [+]
-*	1.2) Paint-like drawing (pick a color, hold mouth to draw)
+*	1.2) Paint-like drawing (pick a color, hold mouth to draw) [+]
 * 
 * 2) Make customizable automotons
 *	2.1) Apply B../S.. rule (string -> rules parser)
@@ -83,7 +84,7 @@ int main(int argc, char *argv[]) {
 												SDL_WINDOWPOS_CENTERED, 
 												WIN_WIDTH, 
 												WIN_HEIGHT, 
-												-1, 
+												WIN_FPS, 
 												false});
 
 	AutomatonService* automatonService = new AutomatonService(n, m, field);
@@ -96,10 +97,11 @@ int main(int argc, char *argv[]) {
 	StartButton* startButton = new StartButton(window, 
 											   winField, 
 											   SDL_Rect {620, 20, 210, 70}, 
-										       (char*)"../resources/StartButton.bmp");
+										       (char*)"../resources/StartButtonPurple.bmp",
+										       (char*)"../resources/StartButtonPurpleOnHover.bmp");
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 250, 600 },
-										 SDL_Color{ 255, 255, 255, 255 });
+										 (char*)"../resources/MenuPurpleNew.bmp");
 
 
 	// Order is important!!!
