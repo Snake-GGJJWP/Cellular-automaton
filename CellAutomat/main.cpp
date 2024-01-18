@@ -14,11 +14,13 @@ const int WIN_FPS = -1;
 
 /*
 * TODO:
-* 1) Make drawing easier
+* 1) Make drawing easier [+]
 *	1.1) Either make grid or make tiles brighter on hover [+]
 *	1.2) Paint-like drawing (pick a color, hold mouth to draw) [+]
 * 
-* 2) Make customizable automotons
+* 2) Make prettier GUI [+]
+* 
+* 3) Make customizable automotons
 *	2.1) Apply B../S.. rule (string -> rules parser)
 *	2.2) Apply generations rules 
 *	// --- FOR LATER ---
@@ -28,7 +30,7 @@ const int WIN_FPS = -1;
 *	2.6) Others?
 *	// -----------
 * 
-* 3) Optimize rendering algorithms, frame limitting.
+* 4) Optimize rendering algorithms, frame limitting.
 */
 
 void printMat1(bool** mat, int n, int m) {
