@@ -2,11 +2,34 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <vector>
 
-#include "Game.h"
+#include "StartButton.h"
+#include "MenuPanel.h"
+#include "FrameLimitter.h"
 
-Game* game = nullptr;
-// Automat* automat = nullptr;
+const int WIN_WIDTH = 850;
+const int WIN_HEIGHT = 600;
+const int WIN_FPS = -1;
+
+/*
+* TODO:
+* 1) Make drawing easier
+*	1.1) Either make grid or make tiles brighter on hover [+]
+*	1.2) Paint-like drawing (pick a color, hold mouth to draw) [+]
+* 
+* 2) Make customizable automotons
+*	2.1) Apply B../S.. rule (string -> rules parser)
+*	2.2) Apply generations rules 
+*	// --- FOR LATER ---
+*	2.3) Apply neighbourhood customization (?) 
+*	2.4) Apply Hensel notation
+*	2.5) Apply "Larger than life" automatons
+*	2.6) Others?
+*	// -----------
+* 
+* 3) Optimize rendering algorithms, frame limitting.
+*/
 
 void printMat1(bool** mat, int n, int m) {
 	// system("CLS");
@@ -19,7 +42,9 @@ void printMat1(bool** mat, int n, int m) {
 }
 
 int main(int argc, char *argv[]) {
-	std::ifstream file("D:\\Programming\\1) projects\\CellAutomat\\presets\\5.txt");
+	std::vector<Widget*> widgets;
+
+	std::ifstream file("../presets/12.txt"); // For now we'll read from file
 
 	if (!file) {
 		std::cout << "File is not opened" << std::endl;
@@ -31,10 +56,10 @@ int main(int argc, char *argv[]) {
 	int m;
 	file >> m;
 
-	int scaleX;
+	float scaleX;
 	file >> scaleX;
 
-	int scaleY;
+	float scaleY;
 	file >> scaleY;
 
 	bool** field = new bool* [n];
@@ -51,46 +76,78 @@ int main(int argc, char *argv[]) {
 			std::cout << "Fuck" << std::endl;
 		}
 		field[i / m][i % m] = (p ? true : false);
-		// std::cout << "TEST: " << i / n << " " << i % m << " " << p << std::endl;
 		i++;
 	}
 
-	// field[n - 1][m - 1] = (p ? true : false);
+	Window* window = new Window(WindowSettings {(char*) "Automaton", 
+												SDL_WINDOWPOS_CENTERED, 
+												SDL_WINDOWPOS_CENTERED, 
+												WIN_WIDTH, 
+												WIN_HEIGHT, 
+												WIN_FPS, 
+												false});
 
-	game = new Game("test", 
-					SDL_WINDOWPOS_CENTERED, 
-					SDL_WINDOWPOS_CENTERED, 
-					m*scaleX, 
-					n*scaleY, 
-					scaleX, 
-					scaleY, 
-					0, 
-					n, 
-					m, 
-					field);
+	AutomatonService* automatonService = new AutomatonService(n, m, field);
 
-	char a;
-	while (game->running()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(60));
-		game->handleEvents();
-		game->update();
-		game->render();
+	AutomatonController* automatonController = new AutomatonController(automatonService);
+
+	Field* winField = new Field(window,
+								automatonController,
+								SDL_Rect{ 0, 0, 600, 600 });
+	StartButton* startButton = new StartButton(window, 
+											   winField, 
+											   SDL_Rect {620, 20, 210, 70}, 
+										       (char*)"../resources/StartButtonPurple.bmp",
+										       (char*)"../resources/StartButtonPurpleOnHover.bmp");
+	MenuPanel* menuPanel = new MenuPanel(window,
+										 SDL_Rect{ 600, 0, 250, 600 },
+										 (char*)"../resources/MenuPurpleNew.bmp");
+
+
+	// Order is important!!!
+	widgets.push_back(winField);
+	widgets.push_back(menuPanel);
+	widgets.push_back(startButton);
+
+	while (window->running()) {
+
+		// Limit framerate
+		// Problem: It affects handleEvent functions; it should affect only rendering and updating.
+		// Heuristic solution: make framelimitter class controlled by start/stop button;
+		// when the game is in editting state - remove frame limitting by putting timeskip = 0s;
+		// when the game is in playing state  - set frame limitting at ~60 fps by putting timeskip = 1000/60 s
+		/*std::this_thread::sleep_for(std::chrono::milliseconds(30));*/
+
+		// (1) Render and present all the stuff;
+		window->cleanRender();
+		window->render();
+
+		for (auto widget : widgets) {
+			widget->render();
+		}
+
+		window->presentRender();
+
+		// (2) Update
+		for (auto widget : widgets) {
+			widget->update();
+		}
+
+		window->update();
+
+		// (3) HandleEvents;
+		static SDL_Event event;
+		SDL_PollEvent(&event);
+
+		for (auto widget : widgets) {
+			widget->handleEvent(&event);
+		}
+
+		window->handleEvent(&event);
+
 	}
 
-	game->clean();
-
-	
-
-	//// printMat1(field, n, m);
-
-	//automat = new Automat(n, m, field);
-	//char dummy;
-
-	//for (int i = 0;; i++) {
-	//	std::this_thread::sleep_for(std::chrono::milliseconds(33));
-	//	system("CLS");
-	//	automat->next();
-	//}
+	window->clean();
 
 	return 0;
 }

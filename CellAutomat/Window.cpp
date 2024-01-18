@@ -1,12 +1,13 @@
 #include <iostream>
 #include <cmath>
 
-#include "Game.h"
+#include "Window.h"
 
 /*
+* NOT RESIZABLE (maybe add it later)
 * It's better to make scaleX and scaleY such that width and height are dividable by them
 */
-Game::Game(const char* title, int xPos, int yPos, int width, int height, float scaleX, float scaleY, bool fullscreen, int n, int m, bool** field) {
+Window::Window(WindowSettings winSet) {
 	// Start SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -14,16 +15,16 @@ Game::Game(const char* title, int xPos, int yPos, int width, int height, float s
 		return;
 	}
 
-	int flag = fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
+	int flag = winSet.fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
 
 	// Window init
-	window = SDL_CreateWindow(title, xPos, yPos, width, height, flag);
+	window = SDL_CreateWindow(winSet.title, winSet.xPos, winSet.yPos, winSet.width, winSet.height, flag);
 	if (!window) {
 		std::cout << "Failed to create a window..." << std::endl;
 		return;
 	}
-	screenWidth = width;
-	screenHeight = height;
+	screenWidth = winSet.width;
+	screenHeight = winSet.height;
 
 	// Renderer init
 	renderer = SDL_CreateRenderer(window, -1, 0);
@@ -31,23 +32,16 @@ Game::Game(const char* title, int xPos, int yPos, int width, int height, float s
 		std::cout << "Failed to create a renderer..." << std::endl;
 		return;
 	}
-	SDL_RenderSetScale(renderer, scaleX, scaleY);
-	scaledWidth = screenWidth / scaleX;
-	scaledHeight = screenHeight / scaleY;
 
+	frameLimitter = new FrameLimitter(winSet.fps);
 
 	isRunning = true;
-
-	initAutomat(n, m, field);
 }
 
-void Game::handleEvents() {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-
+void Window::handleEvent(const SDL_Event* event) {
 	// std::cout << "[EVENT]: " << event.type << std::endl;
 
-	switch (event.type) {
+	switch (event->type) {
 		case SDL_QUIT:
 			isRunning = false;
 			break;
@@ -55,7 +49,7 @@ void Game::handleEvents() {
 		// Step-by-Step mode
 		case SDL_KEYDOWN:
 			// std::cout << SDL_GetKeyName(event.key.keysym.sym) << " " << event.key.keysym.scancode << std::endl;
-			if (event.key.keysym.scancode == 79) {
+			if (event->key.keysym.scancode == 79) {
 				// automat->next();
 			}
 			break;
@@ -65,43 +59,43 @@ void Game::handleEvents() {
 	}
 }
 
-void Game::render() {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+void Window::render() {
 
-	SDL_RenderClear(renderer);
+	frameLimitter->wait(); // my intuition tells it's so wrong...
 
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	bool** field = automat->getField();
+	/*bool** field = automat->getField();
 	for (int i = 0; i < automat->getHeight(); i++) {
 		for (int j = 0; j < automat->getWidth(); j++) {
 			if (field[i][j]) { SDL_RenderDrawPoint(renderer, j, i); }
 		}
-	}
+	}*/
+}
 
+void Window::cleanRender() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+}
 
+void Window::presentRender() {
 	SDL_RenderPresent(renderer);
 }
 
-void Game::update() {
+void Window::update() {
 	frame++;
-	automat->next();
 }
 
-void Game::clean() {
+void Window::setFPS(int fps) {
+	frameLimitter->setFPS(fps);
+}
+
+void Window::clean() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Quitted" << std::endl;
 }
 
-Game::~Game() {
+Window::~Window() {
 	clean();
-}
-
-void Game::initAutomat(int n, int m, bool** field) {
-	automat = new Automat(n, m, field);
-}
-
-void Game::initAutomat(int n, int m) {
-	automat = new Automat(n, m);
 }

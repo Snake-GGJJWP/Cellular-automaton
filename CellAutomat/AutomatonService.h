@@ -1,6 +1,7 @@
 #pragma once
 
-// Maybe use generics?
+
+// Maybe use generics? templates
 /*
 * TODO:
 * *Make the Automat interface and implent it to different types of Automat (INT, anisotrop, generations etc)
@@ -11,17 +12,17 @@
 * *Implement speed adjust in app
 * *Implement step by step mode
 */
-class Automat
+class AutomatonService
 {
 public:
-	Automat(int, int);
-	Automat(int, int, bool**);
+	AutomatonService(int, int);
+	AutomatonService(int, int, bool**);
 	
 	void initField();
 
 	void next();
 
-	bool** getField() { return field; } // but then anyone can access the field... shit
+	bool** getField() { return field; }
 	void setField(bool**);
 
 	int getWidth() { return w; }
@@ -29,7 +30,7 @@ public:
 
 private:
 	
-	// We use bool because we represent only 2 states: live or dead. Save memory.
+	// We use bool because we represent only 2 states: live or dead. Save memory... Probably
 	bool** field; // 2d array
 	int w, h;
 
