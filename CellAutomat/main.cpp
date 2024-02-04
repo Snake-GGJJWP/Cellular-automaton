@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <chrono>
 #include <thread>
@@ -7,10 +7,21 @@
 #include "StartButton.h"
 #include "MenuPanel.h"
 #include "FrameLimitter.h"
+#include "FrameEdit.h"
 
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
 const int WIN_FPS = -1;
+
+/*
+* NOTE TO TOMORROW SELF:
+* There's a bug in FrameEdit or Edit
+* I have no idea why but the app keeps crashing if I use them...
+* First idea: Memory Leak, RAM problems. Most likely that's not the case.
+* 
+* FACT 1: If I init Edit after StartButton it works ok. If vice-versa the bug appears
+* FACT 2: The bug doesn't appear if I remove edit texture
+*/
 
 /*
 * TODO:
@@ -21,17 +32,37 @@ const int WIN_FPS = -1;
 * 2) Make prettier GUI [+]
 * 
 * 3) Make customizable automotons
-*	2.1) Apply B../S.. rule (string -> rules parser)
-*	2.2) Apply generations rules 
+*	3.0) Make editable field. (size, pallete)
+*	3.1) Apply B../S.. rule (string -> rules parser)
+*	3.2) Apply generations rules 
 *	// --- FOR LATER ---
-*	2.3) Apply neighbourhood customization (?) 
-*	2.4) Apply Hensel notation
-*	2.5) Apply "Larger than life" automatons
-*	2.6) Others?
+*	3.3) Apply neighbourhood customization (?) 
+*	3.4) Apply Hensel notation
+*	3.5) Apply "Larger than life" automatons
+*	3.6) Others?
 *	// -----------
 * 
-* 4) Optimize rendering algorithms, frame limitting.
+* 4) Optimize rendering algorithms, frame limitting[+-]. Add flag to widgits which tells if they need rendering.
+*	 Update the flag in handleEvents() or update().
+* 
+* 5) Make exception handling
 */
+
+// Make another class which would start things we need?
+void initLibs() {
+	// Start SDL
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+		std::cout << "Failed to initialize SDL...\n" << SDL_GetError();
+		return;
+	}
+
+	// Start TTF
+	if (TTF_Init() != 0) {
+		std::cout << "Failed to initialize TTF...\n" << TTF_GetError();
+	}
+
+	SDL_StartTextInput();
+}
 
 void printMat1(bool** mat, int n, int m) {
 	// system("CLS");
@@ -44,6 +75,8 @@ void printMat1(bool** mat, int n, int m) {
 }
 
 int main(int argc, char *argv[]) {
+	initLibs();
+
 	std::vector<Widget*> widgets;
 
 	std::ifstream file("../presets/12.txt"); // For now we'll read from file
@@ -96,11 +129,21 @@ int main(int argc, char *argv[]) {
 	Field* winField = new Field(window,
 								automatonController,
 								SDL_Rect{ 0, 0, 600, 600 });
+
+	FrameEdit* frameEdit = new FrameEdit(window,
+										 SDL_Rect{ 620, 110, 210, 70 },
+										 SDL_Color{ 255, 255, 255, 255 },
+										 new std::string("../resources/PixelDigivolve.ttf"),
+										 30,
+										 new std::string("../resources/editBackground.bmp"),
+										 new std::string("TESTING"));
+
 	StartButton* startButton = new StartButton(window, 
-											   winField, 
+											   winField,
 											   SDL_Rect {620, 20, 210, 70}, 
 										       (char*)"../resources/StartButtonPurple.bmp",
 										       (char*)"../resources/StartButtonPurpleOnHover.bmp");
+
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 250, 600 },
 										 (char*)"../resources/MenuPurpleNew.bmp");
@@ -110,6 +153,7 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(winField);
 	widgets.push_back(menuPanel);
 	widgets.push_back(startButton);
+	widgets.push_back(frameEdit);
 
 	while (window->running()) {
 

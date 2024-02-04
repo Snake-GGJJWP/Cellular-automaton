@@ -8,12 +8,6 @@
 * It's better to make scaleX and scaleY such that width and height are dividable by them
 */
 Window::Window(WindowSettings winSet) {
-	// Start SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		std::cout << "Failed to initialize..." << std::endl;
-		return;
-	}
 
 	int flag = winSet.fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
 
