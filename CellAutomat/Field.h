@@ -1,6 +1,7 @@
 #pragma once
 #include "Widget.h"
 #include "AutomatonController.h"
+#include <iostream>
 
 class Field : public Widget
 {
@@ -15,6 +16,9 @@ public:
 
 	// pass Field.field to AutomatonService
 	void setField();
+
+	bool running() { return isRunning;  }
+	void printName() override { std::cout << "I'm field\n"; }
 
 private:
 	bool isCursorOnField(int x, int y);

@@ -7,11 +7,14 @@
 #include "StartButton.h"
 #include "MenuPanel.h"
 #include "FrameLimitter.h"
-#include "FrameEdit.h"
+#include "Label.h"
 
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
 const int WIN_FPS = -1;
+
+
+// ## MOST NOTABLE BUGS DURING DEVELOPMENT ##
 
 /*
 * NOTE TO TOMORROW SELF:
@@ -21,6 +24,19 @@ const int WIN_FPS = -1;
 * 
 * FACT 1: If I init Edit after StartButton it works ok. If vice-versa the bug appears
 * FACT 2: The bug doesn't appear if I remove edit texture
+* FACT 3: The bug appears when I try to create a texture from font
+* 
+* Conclusion:
+* Apparently, it was a memory access error caused by library function
+* during texture creation... It will stay as one of the bugs I couldn't fix...
+*/
+
+/*
+* ANOTHER INTERESTING BUG:
+* If I try to init fonts before widgets it crashes (with the same error code -1073741819)
+* Error appears when trying to create Texture for hovered StartButton...
+* 
+* But if I init them jsut before FrameEdit initialization it works ok...
 */
 
 /*
@@ -64,6 +80,16 @@ void initLibs() {
 	SDL_StartTextInput();
 }
 
+TTF_Font* loadFont(std::string ttfFile, int fontSize) {
+	TTF_Font* font = TTF_OpenFont(ttfFile.c_str(), fontSize);
+	if (font == NULL) {
+		std::cout << "FAILED TO LOAD THE FONT\n";
+		std::cout << TTF_GetError();
+		throw std::invalid_argument("path to .ttf file is unreachable");
+	}
+	return font;
+}
+
 void printMat1(bool** mat, int n, int m) {
 	// system("CLS");
 	for (int i = 0; i < n; i++) {
@@ -79,6 +105,8 @@ int main(int argc, char *argv[]) {
 
 	std::vector<Widget*> widgets;
 
+
+	// ## PRESET LOAD (TEMPORAL) ##
 	std::ifstream file("../presets/12.txt"); // For now we'll read from file
 
 	if (!file) {
@@ -114,6 +142,9 @@ int main(int argc, char *argv[]) {
 		i++;
 	}
 
+	// ## FONTS ##
+
+	// ## WIDGETS INITIALIZATION ##
 	Window* window = new Window(WindowSettings {(char*) "Automaton", 
 												SDL_WINDOWPOS_CENTERED, 
 												SDL_WINDOWPOS_CENTERED, 
@@ -130,23 +161,33 @@ int main(int argc, char *argv[]) {
 								automatonController,
 								SDL_Rect{ 0, 0, 600, 600 });
 
-	FrameEdit* frameEdit = new FrameEdit(window,
-										 SDL_Rect{ 620, 110, 210, 70 },
-										 SDL_Color{ 255, 255, 255, 255 },
-										 new std::string("../resources/PixelDigivolve.ttf"),
-										 30,
-										 new std::string("../resources/editBackground.bmp"),
-										 new std::string("TESTING"));
-
 	StartButton* startButton = new StartButton(window, 
 											   winField,
 											   SDL_Rect {620, 20, 210, 70}, 
 										       (char*)"../resources/StartButtonPurple.bmp",
 										       (char*)"../resources/StartButtonPurpleOnHover.bmp");
+	std::cout << "CREATE FONT!\n";
+
+	TTF_Font* PIXEL_30 = loadFont("../resources/PixelDigivolve.ttf", 30);
+
+	FrameEdit* frameEdit = new FrameEdit(window,
+										 SDL_Rect{ 700, 110, 130, 70 },
+										 SDL_Color{ 255, 255, 255, 255 },
+										 PIXEL_30,
+										 new std::string("../resources/editBackground.bmp"),
+										 new std::string("60"));
+
+	Label* fpsLabel = new Label(window,
+								SDL_Rect{ 620, 110, 170, 70 },
+								SDL_Color{ 255, 255, 255, 255 },
+								PIXEL_30,
+								"FPS");
 
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 250, 600 },
 										 (char*)"../resources/MenuPurpleNew.bmp");
+
+	startButton->addFrameEdit(frameEdit);
 
 
 	// Order is important!!!
@@ -154,7 +195,9 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(menuPanel);
 	widgets.push_back(startButton);
 	widgets.push_back(frameEdit);
+	widgets.push_back(fpsLabel);
 
+	// ## MAIN LOOP
 	while (window->running()) {
 
 		// Limit framerate

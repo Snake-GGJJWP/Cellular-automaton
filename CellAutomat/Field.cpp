@@ -64,7 +64,6 @@ void Field::handleEvent(SDL_Event* event) {
 		}
 
 		if (isMouseButtonPressed && !isRunning && isHovered) {
-			std::cout << "Drawing on: (" << cellHovered / fieldWidth << ", " << cellHovered % fieldWidth << ")\n";
 			field[cellHovered / fieldWidth][cellHovered % fieldWidth] = true;
 		}
 	}

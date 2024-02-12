@@ -14,6 +14,9 @@ public:
 
 	virtual void update() {}
 
-private:
+	virtual void printName() {
+	}
+
+protected:
 	Window* window;
 };

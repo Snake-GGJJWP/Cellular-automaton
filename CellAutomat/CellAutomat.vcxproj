@@ -137,6 +137,7 @@
     <ClCompile Include="FrameEdit.cpp" />
     <ClCompile Include="FrameEdit.h" />
     <ClCompile Include="FrameLimitter.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="MenuPanel.cpp" />
     <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FrameLimitter.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="MenuPanel.h" />
     <ClInclude Include="StartButton.h" />
     <ClInclude Include="Widget.h" />

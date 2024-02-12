@@ -7,6 +7,13 @@ Edit::Edit(Window* win, std::string* startString, std::string* ttfFile, int font
 	loadFont(ttfFile, fontSize);
 }
 
+Edit::Edit(Window* win, std::string* startString, TTF_Font* font) :
+	Widget(win),
+	editString(startString),
+	font(font)
+{
+}
+
 void Edit::loadFont(std::string* ttfFile, int fontSize) {
 	font = TTF_OpenFont(ttfFile->c_str(), fontSize);
 	if (font == NULL) {
@@ -17,9 +24,12 @@ void Edit::loadFont(std::string* ttfFile, int fontSize) {
 }
 
 void Edit::handleEvent(SDL_Event* event) {
-	//Special key input
-	if (event->type == SDL_KEYDOWN) {
+	if (!isFocused) return;
 
+	switch (event->type) {
+
+		//Special key input
+	case SDL_KEYDOWN:
 		//BACKSPACE
 		if (event->key.keysym.sym == SDLK_BACKSPACE && editString->length() > 0)
 		{
@@ -37,16 +47,16 @@ void Edit::handleEvent(SDL_Event* event) {
 		{
 			*editString = SDL_GetClipboardText();
 		}
-	}
+		break;
 
-	//Special text input event
-	else if (event->type == SDL_TEXTINPUT)
-	{
+		//Special text input event
+	case SDL_TEXTINPUT:
 		//Not copy or pasting
 		if (!(SDL_GetModState() & KMOD_CTRL && (event->text.text[0] == 'c' || event->text.text[0] == 'C' || event->text.text[0] == 'v' || event->text.text[0] == 'V')))
 		{
 			//Append character
 			*editString += event->text.text;
 		}
+		break;
 	}
 }
