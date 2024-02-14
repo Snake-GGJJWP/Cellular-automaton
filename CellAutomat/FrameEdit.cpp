@@ -32,9 +32,7 @@ FrameEdit::FrameEdit(Window* win,
 	textColorOK(textColor),
 	renderer(win->getRenderer())
 {
-	SDL_Surface* surface = SDL_LoadBMP(pathToTexture->c_str());
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+	texture = loadTexture(pathToTexture->c_str());
 }
 
 

@@ -6,7 +6,13 @@
 class StartButton : public Button
 {
 public:
-	StartButton(Window* win, Field* destField, SDL_Rect container, char* pathToTexture, char* pathToHover);
+	StartButton(Window* win, 
+				Field* destField, 
+				SDL_Rect container, 
+				char* pathToStartTexture, 
+				char* pathToStartHover,
+				char* pathToStopTexture,
+				char* pathToStopHover);
 	void handleEvent(SDL_Event*) override;
 	void render() override;
 
@@ -24,8 +30,10 @@ private:
 	Field* field;
 
 	SDL_Rect container;
-	SDL_Texture* texture;
-	SDL_Texture* textureHover;
+	SDL_Texture* textureStart;
+	SDL_Texture* textureStartHover;
+	SDL_Texture* textureStop;
+	SDL_Texture* textureStopHover;
 	SDL_Renderer* renderer;
 	FrameLimitter* frameLimitter;
 	FrameEdit* frameEdit;

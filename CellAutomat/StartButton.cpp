@@ -8,30 +8,44 @@ const int FPS_MIN = 5;
 StartButton::StartButton(Window* win,
 						 Field* destField,
 						 SDL_Rect container,
-						 char* pathToTexture,
-						 char* pathToHover) : Button(win) {
+						 char* pathToStartTexture,
+						 char* pathToStartHover,
+						 char* pathToStopTexture,
+						 char* pathToStopHover) : Button(win) {
 	this->container = container;
 
 	renderer = win->getRenderer();
 	frameLimitter = win->getFrameLimitter();
 
-	SDL_Surface* surface = SDL_LoadBMP(pathToTexture);
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	SDL_Surface* surfaceHover = SDL_LoadBMP(pathToHover);
-	textureHover = SDL_CreateTextureFromSurface(renderer, surfaceHover);
-	SDL_FreeSurface(surface);
+	textureStart = loadTexture(pathToStartTexture);
+	textureStartHover = loadTexture(pathToStartHover);
+	textureStop = loadTexture(pathToStopTexture);
+	textureStopHover = loadTexture(pathToStopHover);
 
 	field = destField;
 }
 
 void StartButton::render() {
+	// using SDL_Texture*[4]
+	// int hover = isHovered ? 1 : 0;
+	// int run = field->running() ? 1 : 0;
+	// arr[hover*2+run]; 
+
 	if (isHovered) {
-		SDL_RenderCopy(renderer, textureHover, NULL, &container);
+		if (field->running()) {
+			SDL_RenderCopy(renderer, textureStopHover, NULL, &container);
+		}
+		else {
+			SDL_RenderCopy(renderer, textureStartHover, NULL, &container);
+		}
 	}
 	else {
-		SDL_RenderCopy(renderer, texture, NULL, &container);
+		if (field->running()) {
+			SDL_RenderCopy(renderer, textureStop, NULL, &container);
+		}
+		else {
+			SDL_RenderCopy(renderer, textureStart, NULL, &container);
+		}
 	}
 }
 

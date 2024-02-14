@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include <fstream>
+﻿#include <fstream>
 #include <chrono>
 #include <thread>
 #include <vector>
@@ -24,12 +23,12 @@ const int WIN_FPS = -1;
 * First idea: Memory Leak, RAM problems. Most likely that's not the case.
 * 
 * FACT 1: If I init Edit after StartButton it works ok. If vice-versa the bug appears
-* FACT 2: The bug doesn't appear if I remove edit texture
-* FACT 3: The bug appears when I try to create a texture from font
+* FACT 2: The bug doesn't appear if I remove edit textureStart
+* FACT 3: The bug appears when I try to create a textureStart from font
 * 
 * Conclusion:
 * Apparently, it was a memory access error caused by library function
-* during texture creation... It will stay as one of the bugs I couldn't fix...
+* during textureStart creation... It will stay as one of the bugs I couldn't fix...
 */
 
 /*
@@ -69,13 +68,18 @@ const int WIN_FPS = -1;
 void initLibs() {
 	// Start SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		std::cout << "Failed to initialize SDL...\n" << SDL_GetError();
+		std::cout << "Failed to initialize SDL...\n" << SDL_GetError() << "\n";
 		return;
 	}
 
 	// Start TTF
 	if (TTF_Init() != 0) {
-		std::cout << "Failed to initialize TTF...\n" << TTF_GetError();
+		std::cout << "Failed to initialize TTF...\n" << TTF_GetError() << "\n";
+	}
+
+	// Start SDL_image
+	if (!IMG_Init(IMG_INIT_JPG)) {
+		std::cout << "Failed to initialize IMG...\n" << IMG_GetError() << "\n";
 	}
 
 	SDL_StartTextInput();
@@ -165,8 +169,10 @@ int main(int argc, char *argv[]) {
 	StartButton* startButton = new StartButton(window, 
 											   winField,
 											   SDL_Rect {620, 20, 210, 70}, 
-										       (char*)"../resources/StartButtonPurple.bmp",
-										       (char*)"../resources/StartButtonPurpleOnHover.bmp");
+										       (char*)"../resources/StartButtonPurple.jpg",
+										       (char*)"../resources/StartButtonPurpleOnHover.jpg",
+											   (char*)"../resources/StopButtonPurple.jpg",
+											   (char*)"../resources/StopButtonPurpleOnHover.jpg");
 	std::cout << "CREATE FONT!\n";
 
 	TTF_Font* PIXEL_30 = loadFont("../resources/PixelDigivolve.ttf", 30);
@@ -175,7 +181,7 @@ int main(int argc, char *argv[]) {
 										 SDL_Rect{ 700, 110, 130, 70 },
 										 SDL_Color{ 255, 255, 255, 255 },
 										 PIXEL_30,
-										 new std::string("../resources/editBackground.bmp"),
+										 new std::string("../resources/editBackground.jpg"),
 										 new std::string("60"));
 
 	Label* fpsLabel = new Label(window,
@@ -195,7 +201,7 @@ int main(int argc, char *argv[]) {
 
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 250, 600 },
-										 (char*)"../resources/MenuPurpleNew.bmp");
+										 (char*)"../resources/MenuPurpleNew.jpg");
 
 	startButton->addFrameEdit(frameEdit);
 

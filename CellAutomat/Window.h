@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include <iostream>
 #include "FrameLimitter.h"
 
 typedef struct {
