@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="AutomatonController.cpp" />
     <ClCompile Include="AutomatonService.cpp" />
+    <ClCompile Include="ColorPalette.cpp" />
     <ClCompile Include="Edit.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FrameEdit.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="AutomatonController.h" />
     <ClInclude Include="AutomatonService.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ColorPalette.h" />
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FrameLimitter.h" />

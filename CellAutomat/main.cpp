@@ -8,6 +8,7 @@
 #include "MenuPanel.h"
 #include "FrameLimitter.h"
 #include "Label.h"
+#include "ColorPalette.h"
 
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
@@ -183,6 +184,15 @@ int main(int argc, char *argv[]) {
 								PIXEL_30,
 								"FPS");
 
+	std::vector<SDL_Color> colors = { SDL_Color{0,0,0,255},
+									  SDL_Color{255,255,255,255} };
+
+	ColorPalette* colorPalette = new ColorPalette(window,
+												  winField,
+												  SDL_Rect{620,200,210,50},
+												  colors,
+												  30);
+
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 250, 600 },
 										 (char*)"../resources/MenuPurpleNew.bmp");
@@ -196,6 +206,7 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(startButton);
 	widgets.push_back(frameEdit);
 	widgets.push_back(fpsLabel);
+	widgets.push_back(colorPalette);
 
 	// ## MAIN LOOP
 	while (window->running()) {

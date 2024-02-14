@@ -44,7 +44,7 @@ void Field::handleEvent(SDL_Event* event) {
 			std::cout << "Field's size: " << fieldWidth << " " << fieldHeight << "\n";
 			return;
 		}
-		field[fieldY][fieldX] = !field[fieldY][fieldX];
+		field[fieldY][fieldX] = drawingColor;
 	}
 	else if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT) {
 		std::cout << "Released left button!\n";
@@ -64,7 +64,7 @@ void Field::handleEvent(SDL_Event* event) {
 		}
 
 		if (isMouseButtonPressed && !isRunning && isHovered) {
-			field[cellHovered / fieldWidth][cellHovered % fieldWidth] = true;
+			field[cellHovered / fieldWidth][cellHovered % fieldWidth] = drawingColor;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 #include <iostream>
 #include "StartButton.h"
 
-const int FRAME_LIMIT = 120;
-
+const int FPS_MAX = 120;
+const int FPS_MIN = 5;
 
 
 StartButton::StartButton(Window* win,
@@ -19,13 +19,10 @@ StartButton::StartButton(Window* win,
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
-	std::cout << "CREATE FONT!\n";
-
 	SDL_Surface* surfaceHover = SDL_LoadBMP(pathToHover);
 	textureHover = SDL_CreateTextureFromSurface(renderer, surfaceHover);
 	SDL_FreeSurface(surface);
 
-	std::cout << "CREATE FONT!\n";
 	field = destField;
 }
 
@@ -63,11 +60,14 @@ void StartButton::handleEvent(SDL_Event* event) {
 		}
 
 		fps = std::stoi(*fpsString);
+		fps = fps > FPS_MAX ? FPS_MAX : fps;
+		fps = fps < FPS_MIN && fps >= 0 ? FPS_MIN : fps; // if it's less than 0 we do it with max speed
+
 		frameEdit->setTextColorOK();
 
 		// If field runs then remove frame limit, else set frame limit to
-		// given FPS or FRAME_LIMIT if the former exceeds it
-		frameLimitter->setFPS(field->running() ? -1 : (fps > FRAME_LIMIT ? FRAME_LIMIT : fps));
+		// given FPS or FPS_MAX if the former exceeds it
+		frameLimitter->setFPS(field->running() ? -1 : fps);
 
 		field->switchRunning();
 	}

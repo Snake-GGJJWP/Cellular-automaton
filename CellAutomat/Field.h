@@ -17,6 +17,10 @@ public:
 	// pass Field.field to AutomatonService
 	void setField();
 
+	// set the "color" of the cells we add
+	// by color I mean the type of a cell (alive, dead, killer, generations etc)
+	void setDrawingColor(int code) { drawingColor = code; }
+
 	bool running() { return isRunning;  }
 	void printName() override { std::cout << "I'm field\n"; }
 
@@ -34,6 +38,7 @@ private:
 	bool isMouseButtonPressed = false;
 
 	SDL_Rect container;
+	int drawingColor = 1; // this will be put to a cell we want to color
 
 	Window* window;
 	SDL_Renderer* renderer;
