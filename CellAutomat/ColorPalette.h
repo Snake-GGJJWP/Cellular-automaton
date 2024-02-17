@@ -12,24 +12,17 @@
 class ColorButton : public Button
 {
 public:
-	void handleEvent(SDL_Event* event) override;
 	void render() override;
 
 	friend class ColorPalette;
 
 private:
 	ColorButton(Window* win, Field* field, SDL_Rect container, SDL_Color color, int code);
-
-	bool isCursorOnButton(int x, int y) override;
-	
-	bool isHovered = false;
+	void onClick() override;
 
 	int code;
 	SDL_Color color;
-	SDL_Rect container;
 	Field* field;
-
-	SDL_Renderer* renderer;
 };
 
 
@@ -52,7 +45,6 @@ private:
 	std::vector<Button*> colorButtons;
 	
 	unsigned int buttonSize;
-	SDL_Rect container;
 	Field* field;
 
 	SDL_Renderer* renderer;

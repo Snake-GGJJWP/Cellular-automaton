@@ -6,9 +6,8 @@ ColorPalette::ColorPalette(Window* win,
 						   SDL_Rect container,
 						   std::vector<SDL_Color> colors,
 						   int buttonSize) :
-	Widget(win),
+	Widget(win, container),
 	field(field),
-	container(container),
 	buttonSize(buttonSize),
 	renderer(win->getRenderer())
 {
@@ -64,34 +63,20 @@ void ColorPalette::addColor(SDL_Color) {
 // ## COLOR BUTTON METHODS ##
 
 ColorButton::ColorButton(Window* win, Field* field, SDL_Rect container, SDL_Color color, int code) :
-	Button(win),
+	Button(win, container),
 	code(code),
-	container(container),
 	color(color),
-	field(field),
-	renderer(win->getRenderer())
+	field(field)
 {
 }
 
 
-void ColorButton::handleEvent(SDL_Event* event) {
-	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered) {
-		field->setDrawingColor(code);
-		std::cout << "CLICKED! CODE: " << code << "\n";
-	}
-	else if (event->type == SDL_MOUSEMOTION) {
-		isHovered = isCursorOnButton(event->motion.x, event->motion.y);
-	}
+void ColorButton::onClick() {
+	field->setDrawingColor(code);
+	std::cout << "CLICKED! CODE: " << code << "\n";
 }
 
 void ColorButton::render() {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, &container);
-}
-
-bool ColorButton::isCursorOnButton(int x, int y) {
-	return (x > container.x &&
-			x < container.x + container.w &&
-			y > container.y &&
-			y < container.y + container.h);
 }

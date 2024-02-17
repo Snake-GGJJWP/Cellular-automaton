@@ -13,9 +13,7 @@ void printMatField(bool** mat, int n, int m) {
 
 Field::Field(Window* window, 
 			AutomatonController* automatonController,
-			SDL_Rect container) : Widget(window) {
-	this->container = container;
-
+			SDL_Rect container) : Widget(window, container) {
 	this->automatonController = automatonController;
 	fieldHeight = automatonController->getHeight();
 	fieldWidth = automatonController->getWidth();
@@ -51,7 +49,7 @@ void Field::handleEvent(SDL_Event* event) {
 		isMouseButtonPressed = false;
 	}
 	else if (event->type == SDL_MOUSEMOTION) {
-		isHovered = isCursorOnField(event->motion.x, event->motion.y);
+		isHovered = isCursorOnWidget(event->motion.x, event->motion.y);
 
 		if (isHovered && !isRunning) {
 			int fieldX = (event->button.x - container.x) / cellSize;
@@ -108,11 +106,4 @@ void Field::update() {
 
 void Field::setField() {
 	automatonController->setField(field);
-}
-
-bool Field::isCursorOnField(int x, int y) {
-	return (x > container.x &&
-			x < container.x + cellSize*fieldWidth &&
-			y > container.y &&
-			y < container.y + cellSize*fieldHeight);
 }

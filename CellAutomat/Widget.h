@@ -8,7 +8,7 @@
 class Widget
 {
 public:
-	Widget(Window* win) : window(win) {}
+	Widget(Window* win, SDL_Rect container) : window(win), container(container) {}
 	
 	virtual void handleEvent(SDL_Event* event) { }
 	virtual void render() {}
@@ -27,5 +27,13 @@ protected:
 		return texture;
 	};
 
+	virtual bool isCursorOnWidget(int x, int y) {
+		return (x > container.x &&
+				x < container.x + container.w &&
+				y > container.y &&
+				y < container.y + container.h);
+	}
+
 	Window* window;
+	SDL_Rect container;
 };

@@ -1,5 +1,7 @@
-#include <iostream>
+#include <set>
+
 #include "StartButton.h"
+#include "tinyfiledialogs.h"
 
 const int FPS_MAX = 120;
 const int FPS_MIN = 5;
@@ -11,18 +13,15 @@ StartButton::StartButton(Window* win,
 						 char* pathToStartTexture,
 						 char* pathToStartHover,
 						 char* pathToStopTexture,
-						 char* pathToStopHover) : Button(win) {
-	this->container = container;
-
-	renderer = win->getRenderer();
-	frameLimitter = win->getFrameLimitter();
-
+						 char* pathToStopHover) : 
+	Button(win, container),
+	field(destField),
+	frameLimitter(win->getFrameLimitter())
+{
 	textureStart = loadTexture(pathToStartTexture);
 	textureStartHover = loadTexture(pathToStartHover);
 	textureStop = loadTexture(pathToStopTexture);
 	textureStopHover = loadTexture(pathToStopHover);
-
-	field = destField;
 }
 
 void StartButton::render() {
@@ -49,50 +48,67 @@ void StartButton::render() {
 	}
 }
 
-void StartButton::handleEvent(SDL_Event* event) {
-	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered) {
-		field->setField();
+void StartButton::onClick() {
+	/*char const* patterns[1] = { "*.txt" };
+	tinyfd_openFileDialog("TESTING",
+							"",
+							1,
+							patterns,
+							"presets",
+							0);*/
 
-		int fps;
-		std::string* fpsString = frameEdit->getText();
+	field->setField();
 
-		// If we found incorrect symbol in text then
-		// show it to user, keep the default FPS (MAX_FPS / 2)
-		// else parse the text into int
-		for (auto it = fpsString->begin(); it != fpsString->end(); ++it) {
+	int fps;
+	std::string* fpsString = frameEdit->getText();
+	std::cout << *fpsString << "\n";
 
-			// if current symbol is not in allowed list then ...
-			if (frameEdit->ALLOWED_SYMBOLS.find(*it) == frameEdit->ALLOWED_SYMBOLS.end()) {
-				std::cout << "Wrong symbol\n";
-				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-										(char*)"ERROR",
-										(char*)"Invalid fps...",
-										window->getWindow());
-				frameEdit->setTextColorError();
-				return;
-			}
+	if (fpsString->length() == 0) {
+		std::cout << "FPS where?\n";
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+								(char*)"INPUT ERROR",
+								(char*)"Please, enter fps...",
+								window->getWindow());
+		frameEdit->setTextColorError();
+		return;
+	}
+
+	// If we found incorrect symbol in text then
+	// show it to user, keep the default FPS (MAX_FPS / 2)
+	// else parse the text into int
+	for (auto it = fpsString->begin(); it != fpsString->end(); ++it) {
+		// if current symbol is not in allowed list then ...
+		if (frameEdit->ALLOWED_SYMBOLS.find(*it) == frameEdit->ALLOWED_SYMBOLS.end()) {
+			std::cout << "Wrong symbol\n";
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+									(char*)"INPUT ERROR",
+									(char*)"Invalid fps...",
+									window->getWindow());
+			frameEdit->setTextColorError();
+			return;
 		}
+	}
 
+	try {
 		fps = std::stoi(*fpsString);
-		fps = fps > FPS_MAX ? FPS_MAX : fps;
-		fps = fps < FPS_MIN && fps >= 0 ? FPS_MIN : fps; // if it's less than 0 we do it with max speed
-
-		frameEdit->setTextColorOK();
-
-		// If field runs then remove frame limit, else set frame limit to
-		// given FPS or FPS_MAX if the former exceeds it
-		frameLimitter->setFPS(field->running() ? -1 : fps);
-
-		field->switchRunning();
 	}
-	else if (event->type == SDL_MOUSEMOTION) {
-		isHovered = isCursorOnButton(event->motion.x, event->motion.y);
+	catch (const std::out_of_range) {
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+									(char*)"INPUT ERROR",
+									(char*)"FPS number is too large",
+									window->getWindow());
+		frameEdit->setTextColorError();
+		return;
 	}
-}
 
-bool StartButton::isCursorOnButton(int x, int y) {
-	return (x > container.x &&
-			x < container.x + container.w &&
-			y > container.y &&
-			y < container.y + container.h);
+	fps = fps > FPS_MAX ? FPS_MAX : fps;
+	fps = fps < FPS_MIN && fps >= 0 ? FPS_MIN : fps; // if it's less than 0 we do it with max speed
+
+	frameEdit->setTextColorOK();
+
+	// If field runs then remove frame limit, else set frame limit to
+	// given FPS or FPS_MAX if the former exceeds it
+	frameLimitter->setFPS(field->running() ? -1 : fps);
+
+	field->switchRunning();
 }

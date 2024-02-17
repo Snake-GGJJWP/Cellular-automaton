@@ -22,10 +22,8 @@ public:
 	void setDrawingColor(int code) { drawingColor = code; }
 
 	bool running() { return isRunning;  }
-	void printName() override { std::cout << "I'm field\n"; }
 
 private:
-	bool isCursorOnField(int x, int y);
 
 	bool** field;
 	int fieldHeight;
@@ -37,7 +35,6 @@ private:
 	bool isHovered = false;
 	bool isMouseButtonPressed = false;
 
-	SDL_Rect container;
 	int drawingColor = 1; // this will be put to a cell we want to color
 
 	Window* window;

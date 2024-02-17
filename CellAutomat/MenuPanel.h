@@ -32,7 +32,6 @@ public:
 		std::cout << "I'm MenuPanel!\n";
 	}
 private:
-	SDL_Rect container;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
 };

@@ -1,7 +1,6 @@
 #include "MenuPanel.h"
 
-MenuPanel::MenuPanel(Window* window, SDL_Rect container, char* pathToTexture) : Widget(window) {
-	this->container = container;
+MenuPanel::MenuPanel(Window* window, SDL_Rect container, char* pathToTexture) : Widget(window, container) {
 	this->renderer = window->getRenderer();
 
 	texture = loadTexture(pathToTexture);

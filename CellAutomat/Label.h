@@ -33,7 +33,6 @@ private:
 	std::string text;
 	SDL_Color textColor;
 	TTF_Font* font;
-	SDL_Rect container;
 	SDL_Texture* textTexture;
 	SDL_Renderer* renderer;
 };

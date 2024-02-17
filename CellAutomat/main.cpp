@@ -178,11 +178,14 @@ int main(int argc, char *argv[]) {
 	TTF_Font* PIXEL_30 = loadFont("../resources/PixelDigivolve.ttf", 30);
 
 	FrameEdit* frameEdit = new FrameEdit(window,
-										 SDL_Rect{ 700, 110, 130, 70 },
-										 SDL_Color{ 255, 255, 255, 255 },
-										 PIXEL_30,
-										 new std::string("../resources/editBackground.jpg"),
-										 new std::string("60"));
+									     PIXEL_30,
+									     SDL_Rect{ 700, 110, 130, 70 },
+									     SDL_Color{ 255, 255, 255, 255 },
+									     new std::string("../resources/editBackground.jpg"));
+
+	frameEdit->setText(new std::string("60"));
+	/*frameEdit->setCharLimit(3);*/
+	frameEdit->setStringLimit(5);
 
 	Label* fpsLabel = new Label(window,
 								SDL_Rect{ 620, 110, 170, 70 },

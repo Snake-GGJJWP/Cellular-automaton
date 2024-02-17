@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="AutomatonController.cpp" />
     <ClCompile Include="AutomatonService.cpp" />
+    <ClCompile Include="Buton.cpp" />
     <ClCompile Include="ColorPalette.cpp" />
     <ClCompile Include="Edit.cpp" />
     <ClCompile Include="Field.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="MenuPanel.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="tinyfiledialogs.c" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -155,6 +157,7 @@
     <ClInclude Include="Label.h" />
     <ClInclude Include="MenuPanel.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="tinyfiledialogs.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
