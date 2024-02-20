@@ -1,7 +1,8 @@
 #pragma once
+#include <iostream>
+#include <fstream>
 
 
-// Maybe use generics? templates
 /*
 * TODO:
 * *Make the Automat interface and implent it to different types of Automat (INT, anisotrop, generations etc)
@@ -16,22 +17,23 @@ class AutomatonService
 {
 public:
 	AutomatonService(int, int);
-	AutomatonService(int, int, bool**);
+	AutomatonService(int, int, uint8_t**);
 	
 	void initField();
 
 	void next();
 
-	bool** getField() { return field; }
-	void setField(bool**);
+	uint8_t** getField() { return field; }
+	void setField(uint8_t**);
 
 	int getWidth() { return w; }
 	int getHeight() { return h; }
+	void setWidth(int w) { this->w = w; }
+	void setHeight(int h) { this->h = h; }
 
 private:
 	
-	// We use bool because we represent only 2 states: live or dead. Save memory... Probably
-	bool** field; // 2d array
+	uint8_t** field; // 2d array
 	int w, h;
 
 };

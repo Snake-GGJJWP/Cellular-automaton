@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Programming\cppLibs\SDL2\SDL2-2.28.5\include;D:\Programming\cppLibs\SDL2_Image\SDL2_image-2.8.2\include;D:\Programming\cppLibs\SDL2_TTF\SDL2_ttf-2.22.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +141,13 @@
     <ClCompile Include="FrameEdit.h" />
     <ClCompile Include="FrameLimitter.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="LoadButton.cpp" />
     <ClCompile Include="MenuPanel.cpp" />
+    <ClCompile Include="PresetController.cpp" />
+    <ClCompile Include="PresetDAO.cpp" />
+    <ClCompile Include="PresetMapper.cpp" />
+    <ClCompile Include="PresetService.cpp" />
+    <ClCompile Include="SaveButton.cpp" />
     <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="tinyfiledialogs.c" />
     <ClCompile Include="Window.cpp" />
@@ -154,8 +161,18 @@
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FrameLimitter.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="json_fwd.hpp" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="LoadButton.h" />
     <ClInclude Include="MenuPanel.h" />
+    <ClInclude Include="Preset.h" />
+    <ClInclude Include="PresetController.h" />
+    <ClInclude Include="PresetDAO.h" />
+    <ClInclude Include="PresetDTO.h" />
+    <ClInclude Include="PresetMapper.h" />
+    <ClInclude Include="PresetService.h" />
+    <ClInclude Include="SaveButton.h" />
     <ClInclude Include="StartButton.h" />
     <ClInclude Include="tinyfiledialogs.h" />
     <ClInclude Include="Widget.h" />

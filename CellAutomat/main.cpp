@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "StartButton.h"
+#include "SaveButton.h"
+#include "LoadButton.h"
 #include "MenuPanel.h"
 #include "FrameLimitter.h"
 #include "Label.h"
@@ -12,6 +14,8 @@
 const int WIN_WIDTH = 850;
 const int WIN_HEIGHT = 600;
 const int WIN_FPS = -1;
+const int FIELD_WIDTH = 50;
+const int FIELD_HEIGHT = 50;
 
 
 // ## MOST NOTABLE BUGS DURING DEVELOPMENT ##
@@ -112,42 +116,40 @@ int main(int argc, char *argv[]) {
 
 
 	// ## PRESET LOAD (TEMPORAL) ##
-	std::ifstream file("../presets/12.txt"); // For now we'll read from file
+	//std::ifstream file("../presets/12.txt"); // For now we'll read from file
 
-	if (!file) {
-		std::cout << "File is not opened" << std::endl;
-	}
+	//if (!file) {
+	//	std::cout << "File is not opened" << std::endl;
+	//}
 
-	int n;
-	file >> n;
+	//int n;
+	//file >> n;
 
-	int m;
-	file >> m;
+	//int m;
+	//file >> m;
 
-	float scaleX;
-	file >> scaleX;
+	//float scaleX;
+	//file >> scaleX;
 
-	float scaleY;
-	file >> scaleY;
+	//float scaleY;
+	//file >> scaleY;
 
-	bool** field = new bool* [n];
-	for (int i = 0; i < n; i++) {
-		field[i] = new bool[m];
-	}
+	//bool** field = new bool* [n];
+	//for (int i = 0; i < n; i++) {
+	//	field[i] = new bool[m];
+	//}
 
-	//printMat1(field, n, m);
+	////printMat1(field, n, m);
 
-	int p;
-	int i = 0;
-	for (file >> p; !file.eof(); file >> p) {
-		if (i >= n * m) {
-			std::cout << "Fuck" << std::endl;
-		}
-		field[i / m][i % m] = (p ? true : false);
-		i++;
-	}
-
-	// ## FONTS ##
+	//int p;
+	//int i = 0;
+	//for (file >> p; !file.eof(); file >> p) {
+	//	if (i >= n * m) {
+	//		std::cout << "Fuck" << std::endl;
+	//	}
+	//	field[i / m][i % m] = (p ? true : false);
+	//	i++;
+	//}
 
 	// ## WIDGETS INITIALIZATION ##
 	Window* window = new Window(WindowSettings {(char*) "Automaton", 
@@ -158,9 +160,11 @@ int main(int argc, char *argv[]) {
 												WIN_FPS, 
 												false});
 
-	AutomatonService* automatonService = new AutomatonService(n, m, field);
-
+	AutomatonService* automatonService = new AutomatonService(FIELD_HEIGHT, FIELD_WIDTH);
 	AutomatonController* automatonController = new AutomatonController(automatonService);
+
+	PresetService* presetService = new PresetService();
+	PresetController* presetController = new PresetController(presetService);
 
 	Field* winField = new Field(window,
 								automatonController,
@@ -173,13 +177,25 @@ int main(int argc, char *argv[]) {
 										       (char*)"../resources/StartButtonPurpleOnHover.jpg",
 											   (char*)"../resources/StopButtonPurple.jpg",
 											   (char*)"../resources/StopButtonPurpleOnHover.jpg");
-	std::cout << "CREATE FONT!\n";
+
+
+	SaveButton* saveButton = new SaveButton(window, 
+										    SDL_Rect{ 645, 110, 70, 70 }, 
+										    (char*)"../resources/SaveButton.jpg",
+											(char*)"../resources/SaveButtonHover.jpg");
+
+	LoadButton* loadButton = new LoadButton(window,
+											winField,
+											presetController,
+										    SDL_Rect{ 735, 110, 70, 70 }, 
+										    (char*)"../resources/LoadButton.jpg",
+											(char*)"../resources/LoadButtonHover.jpg");
 
 	TTF_Font* PIXEL_30 = loadFont("../resources/PixelDigivolve.ttf", 30);
 
 	FrameEdit* frameEdit = new FrameEdit(window,
 									     PIXEL_30,
-									     SDL_Rect{ 700, 110, 130, 70 },
+									     SDL_Rect{ 700, 200, 130, 70 },
 									     SDL_Color{ 255, 255, 255, 255 },
 									     new std::string("../resources/editBackground.jpg"));
 
@@ -188,7 +204,7 @@ int main(int argc, char *argv[]) {
 	frameEdit->setStringLimit(5);
 
 	Label* fpsLabel = new Label(window,
-								SDL_Rect{ 620, 110, 170, 70 },
+								SDL_Rect{ 620, 200, 170, 70 },
 								SDL_Color{ 255, 255, 255, 255 },
 								PIXEL_30,
 								"FPS");
@@ -198,7 +214,7 @@ int main(int argc, char *argv[]) {
 
 	ColorPalette* colorPalette = new ColorPalette(window,
 												  winField,
-												  SDL_Rect{620,200,210,50},
+												  SDL_Rect{620,290,210,50},
 												  colors,
 												  30);
 
@@ -213,6 +229,8 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(winField);
 	widgets.push_back(menuPanel);
 	widgets.push_back(startButton);
+	widgets.push_back(saveButton);
+	widgets.push_back(loadButton);
 	widgets.push_back(frameEdit);
 	widgets.push_back(fpsLabel);
 	widgets.push_back(colorPalette);

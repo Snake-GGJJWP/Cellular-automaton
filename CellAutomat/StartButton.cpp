@@ -1,7 +1,6 @@
 #include <set>
 
 #include "StartButton.h"
-#include "tinyfiledialogs.h"
 
 const int FPS_MAX = 120;
 const int FPS_MIN = 5;
@@ -49,14 +48,6 @@ void StartButton::render() {
 }
 
 void StartButton::onClick() {
-	/*char const* patterns[1] = { "*.txt" };
-	tinyfd_openFileDialog("TESTING",
-							"",
-							1,
-							patterns,
-							"presets",
-							0);*/
-
 	field->setField();
 
 	int fps;

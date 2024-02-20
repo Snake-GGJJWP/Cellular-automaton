@@ -1,8 +1,7 @@
-#include <iostream>
-#include <fstream>
 #include "AutomatonService.h"
 
-void printMat(bool** mat, int n, int m);
+void printMat(uint8_t** mat, int n, int m);
+
 AutomatonService::AutomatonService(int n, int m) {
 	// remember field's size
 	h = n;
@@ -12,10 +11,10 @@ AutomatonService::AutomatonService(int n, int m) {
 	// Filled with Trues by default
 	initField();
 
-	printMat(field, n, m);
+	printMat(field, h, w);
 }
 
-AutomatonService::AutomatonService(int n, int m, bool** inField) {
+AutomatonService::AutomatonService(int n, int m, uint8_t** inField) {
 	h = n;
 	w = m;
 
@@ -24,13 +23,13 @@ AutomatonService::AutomatonService(int n, int m, bool** inField) {
 	// Copy, because someone else will have access to the field otherwise
 	setField(inField);
 
-	// printMat(field, h, w);
+	//printMat(field, h, w);
 }
 
 void AutomatonService::next() {
-	bool** newField = new bool* [h];
+	uint8_t** newField = new uint8_t* [h];
 	for (int i = 0; i < h; i++) {
-		newField[i] = new bool[w];
+		newField[i] = new uint8_t[w];
 	}
 	
 	for (int i = 0; i < h; i++) {
@@ -53,12 +52,12 @@ void AutomatonService::next() {
 
 			// Death conditions
 			if (alive < 2 || alive > 3) {
-				newField[i][j] = false;
+				newField[i][j] = 0;
 			}
 			
 			// Birth conditions
 			else if (alive == 3) {
-				newField[i][j] = true;
+				newField[i][j] = 1;
 			}
 
 			alive = 0;
@@ -78,7 +77,7 @@ void AutomatonService::next() {
 	// printMat(field, h, w);
 }
 
-void AutomatonService::setField(bool** newField) {
+void AutomatonService::setField(uint8_t** newField) {
 	for (int i = 0; i < h; i++) {
 		for (int j = 0; j < w; j++) {
 			field[i][j] = newField[i][j];
@@ -87,18 +86,21 @@ void AutomatonService::setField(bool** newField) {
 }
 
 void AutomatonService::initField() {
-	field = new bool* [h];
+	field = new uint8_t* [h];
 	for (int i = 0; i < h; i++) {
-		field[i] = new bool[w];
+		field[i] = new uint8_t[w];
+		for (int j = 0; j < w; j++) {
+			field[i][j] = 0;
+		}
 	}
 }
 
 
-void printMat(bool** mat, int n, int m) {
+void printMat(uint8_t** mat, int n, int m) {
 	// system("CLS");
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			std::cout << (mat[i][j] ? "1" : "0") << " ";
+			std::cout << mat[i][j];
 		}
 		std::cout << std::endl;
 	}

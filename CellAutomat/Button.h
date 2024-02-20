@@ -13,10 +13,15 @@ protected:
 		texture = loadTexture(pathToTexture);
 	}
 
+	void setTextureHover(char* pathToTexture) {
+		textureHover = loadTexture(pathToTexture);
+	}
+
 	virtual void onClick() {}
 
 	bool isHovered = false;
 	SDL_Renderer* renderer;
 
 	SDL_Texture* texture = NULL;
+	SDL_Texture* textureHover = NULL;
 };

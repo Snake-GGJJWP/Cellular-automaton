@@ -55,6 +55,11 @@ void Field::handleEvent(SDL_Event* event) {
 			int fieldX = (event->button.x - container.x) / cellSize;
 			int fieldY = (event->button.y - container.y) / cellSize;
 
+			if (fieldX >= fieldWidth || fieldY >= fieldHeight) {
+				cellHovered = -1;
+				return;
+			}
+
 			cellHovered = fieldY * fieldWidth + fieldX;
 		}
 		else {
@@ -76,7 +81,6 @@ void Field::render() {
 	// Draw cells
 	for (int i = 0; i < fieldHeight; i++) {
 		for (int j = 0; j < fieldWidth; j++) {
-			//if (field[i][j]) { SDL_RenderDrawPoint(renderer, j+container.x, i+container.y); }
 			if (field[i][j]) {
 				SDL_Rect cell = { (container.x + j) * cellSize, (container.y + i) * cellSize, cellSize, cellSize };
 				SDL_RenderFillRect(renderer, &cell);
@@ -86,8 +90,8 @@ void Field::render() {
 	
 	// Draw hover rectangle
 	if (!isRunning && cellHovered > -1) {
-		SDL_Rect hoverRect = { (container.x + cellHovered % fieldWidth) * cellSize, 
-							   (container.y + (int)(cellHovered / fieldHeight)) * cellSize,
+		SDL_Rect hoverRect = { container.x + (cellHovered % fieldWidth) * cellSize, 
+							   container.y + ((int)(cellHovered / fieldWidth)) * cellSize,
 							   cellSize,
 							   cellSize};
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // make opacity work
@@ -105,5 +109,14 @@ void Field::update() {
 }
 
 void Field::setField() {
+	automatonController->setHeight(fieldHeight);
+	automatonController->setWidth(fieldWidth);
 	automatonController->setField(field);
+}
+
+void Field::loadField(int h, int w, uint8_t** field) {
+	fieldHeight = h;
+	fieldWidth = w;
+	cellSize = (fieldHeight > fieldWidth) ? container.h / fieldHeight : container.w / fieldWidth;
+	this->field = field;
 }

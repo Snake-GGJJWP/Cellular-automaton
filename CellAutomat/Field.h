@@ -20,12 +20,14 @@ public:
 	// set the "color" of the cells we add
 	// by color I mean the type of a cell (alive, dead, killer, generations etc)
 	void setDrawingColor(int code) { drawingColor = code; }
+	
+	void loadField(int h, int w, uint8_t** field);
 
 	bool running() { return isRunning;  }
 
 private:
 
-	bool** field;
+	uint8_t** field;
 	int fieldHeight;
 	int fieldWidth;
 	int cellSize;

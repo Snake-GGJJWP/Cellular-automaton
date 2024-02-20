@@ -15,11 +15,26 @@ void Button::handleEvent(SDL_Event* event) {
 }
 
 void Button::render() {
-	if (texture == NULL) {
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
-		SDL_RenderFillRect(renderer, &container);
+	// Problem: Spaghetti
+	if (isHovered) {
+		if (textureHover != NULL) {
+			SDL_RenderCopy(renderer, textureHover, NULL, &container);
+		}
+		else if (texture != NULL) {
+			SDL_RenderCopy(renderer, texture, NULL, &container);
+		}
+		else {
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
+			SDL_RenderFillRect(renderer, &container);
+		}
 	}
 	else {
-		SDL_RenderCopy(renderer, texture, NULL, &container);
+		if (texture != NULL) {
+			SDL_RenderCopy(renderer, texture, NULL, &container);
+		}
+		else {
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
+			SDL_RenderFillRect(renderer, &container);
+		}
 	}
 }
