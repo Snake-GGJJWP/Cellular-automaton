@@ -1,14 +1,16 @@
 #include "Edit.h"
 #include <set>
 
-class FrameEdit : public Edit
+class NumberEdit : public Edit
 {
 public:
-	FrameEdit(Window* win,
+	NumberEdit(Window* win,
 			  TTF_Font* font,
 			  SDL_Rect container,
 			  SDL_Color textColor,
 			  std::string* pathToTexture);
+
+	void handleEvent(SDL_Event* event) override;
 
 	void setTextColorError();
 	void setTextColorOK();

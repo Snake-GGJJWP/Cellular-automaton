@@ -117,13 +117,13 @@
     <ClCompile Include="ColorPalette.cpp">
       <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
-    <ClCompile Include="FrameEdit.cpp">
+    <ClCompile Include="NumberEdit.cpp">
       <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="FrameEdit.h">
+    <ClCompile Include="NumberEdit.h">
       <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClCompile>
     <ClCompile Include="PresetDAO.cpp">
@@ -131,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="PresetMapper.cpp">
       <Filter>Исходные файлы\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEdit.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="PresetMapper.h">
       <Filter>Файлы заголовков\Mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEdit.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

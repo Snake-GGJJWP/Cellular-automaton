@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Button.h"
 #include "Field.h"
-#include "FrameEdit.h"
+#include "NumberEdit.h"
 
 class StartButton : public Button
 {
@@ -16,7 +16,7 @@ public:
 	void render() override;
 
 	// It won't work otherwise ¯\_(ツ)_/¯
-	void addFrameEdit(FrameEdit* frameEdit) { this->frameEdit = frameEdit; }
+	void addFrameEdit(NumberEdit* frameEdit) { this->frameEdit = frameEdit; }
 
 private:
 	void onClick() override;
@@ -28,5 +28,5 @@ private:
 	SDL_Texture* textureStop;
 	SDL_Texture* textureStopHover;
 	FrameLimitter* frameLimitter;
-	FrameEdit* frameEdit;
+	NumberEdit* frameEdit;
 };

@@ -6,6 +6,8 @@
 
 #include "Widget.h"
 
+const int TEXT_MARGIN = 5;
+
 class Edit : public Widget
 {
 public:
@@ -17,7 +19,6 @@ public:
 	virtual std::string* getText() { return editString; };
 	virtual void setText(std::string* str);
 	virtual void setCharLimit(int limit);
-	virtual void setStringLimit(int limit);
 	
 
 protected:
@@ -39,5 +40,7 @@ protected:
 
 private:
 	void loadFont(std::string* ttfFile, int fontSize);
-	int start = 0; // String cutting start index
+	int cursorX(); // get x coord where cursor is currently in
+	int startX = 0; // string cutting starting x coordinate
+	int cursorWidth; // width of cursor charachter;
 };

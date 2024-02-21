@@ -10,8 +10,9 @@
 #include "FrameLimitter.h"
 #include "Label.h"
 #include "ColorPalette.h"
+#include "TextEdit.h"
 
-const int WIN_WIDTH = 850;
+const int WIN_WIDTH = 1000;
 const int WIN_HEIGHT = 600;
 const int WIN_FPS = -1;
 const int FIELD_WIDTH = 50;
@@ -22,7 +23,7 @@ const int FIELD_HEIGHT = 50;
 
 /*
 * NOTE TO TOMORROW SELF:
-* There's a bug in FrameEdit or Edit
+* There's a bug in NumberEdit or Edit
 * I have no idea why but the app keeps crashing if I use them...
 * First idea: Memory Leak, RAM problems. Most likely that's not the case.
 * 
@@ -40,7 +41,7 @@ const int FIELD_HEIGHT = 50;
 * If I try to init fonts before widgets it crashes (with the same error code -1073741819)
 * Error appears when trying to create Texture for hovered StartButton...
 * 
-* But if I init them jsut before FrameEdit initialization it works ok...
+* But if I init them jsut before NumberEdit initialization it works ok...
 */
 
 /*
@@ -114,43 +115,6 @@ int main(int argc, char *argv[]) {
 
 	std::vector<Widget*> widgets;
 
-
-	// ## PRESET LOAD (TEMPORAL) ##
-	//std::ifstream file("../presets/12.txt"); // For now we'll read from file
-
-	//if (!file) {
-	//	std::cout << "File is not opened" << std::endl;
-	//}
-
-	//int n;
-	//file >> n;
-
-	//int m;
-	//file >> m;
-
-	//float scaleX;
-	//file >> scaleX;
-
-	//float scaleY;
-	//file >> scaleY;
-
-	//bool** field = new bool* [n];
-	//for (int i = 0; i < n; i++) {
-	//	field[i] = new bool[m];
-	//}
-
-	////printMat1(field, n, m);
-
-	//int p;
-	//int i = 0;
-	//for (file >> p; !file.eof(); file >> p) {
-	//	if (i >= n * m) {
-	//		std::cout << "Fuck" << std::endl;
-	//	}
-	//	field[i / m][i % m] = (p ? true : false);
-	//	i++;
-	//}
-
 	// ## WIDGETS INITIALIZATION ##
 	Window* window = new Window(WindowSettings {(char*) "Automaton", 
 												SDL_WINDOWPOS_CENTERED, 
@@ -172,7 +136,7 @@ int main(int argc, char *argv[]) {
 
 	StartButton* startButton = new StartButton(window, 
 											   winField,
-											   SDL_Rect {620, 20, 210, 70}, 
+											   SDL_Rect {610, 20, 210, 70}, 
 										       (char*)"../resources/StartButtonPurple.jpg",
 										       (char*)"../resources/StartButtonPurpleOnHover.jpg",
 											   (char*)"../resources/StopButtonPurple.jpg",
@@ -180,34 +144,78 @@ int main(int argc, char *argv[]) {
 
 
 	SaveButton* saveButton = new SaveButton(window, 
-										    SDL_Rect{ 645, 110, 70, 70 }, 
+										    SDL_Rect{ 842, 20, 70, 70 }, 
 										    (char*)"../resources/SaveButton.jpg",
 											(char*)"../resources/SaveButtonHover.jpg");
 
 	LoadButton* loadButton = new LoadButton(window,
 											winField,
 											presetController,
-										    SDL_Rect{ 735, 110, 70, 70 }, 
+										    SDL_Rect{ 920, 20, 70, 70 }, 
 										    (char*)"../resources/LoadButton.jpg",
 											(char*)"../resources/LoadButtonHover.jpg");
 
-	TTF_Font* PIXEL_30 = loadFont("../resources/PixelDigivolve.ttf", 30);
+	TTF_Font* PIXEL_24 = loadFont("../resources/PixelDigivolve.ttf", 24);
 
-	FrameEdit* frameEdit = new FrameEdit(window,
-									     PIXEL_30,
-									     SDL_Rect{ 700, 200, 130, 70 },
+	NumberEdit* frameEdit = new NumberEdit(window,
+									     PIXEL_24,
+									     SDL_Rect{ 670, 100, 60, 50 },
 									     SDL_Color{ 255, 255, 255, 255 },
 									     new std::string("../resources/editBackground.jpg"));
 
 	frameEdit->setText(new std::string("60"));
-	/*frameEdit->setCharLimit(3);*/
-	frameEdit->setStringLimit(5);
+	frameEdit->setCharLimit(3);
 
 	Label* fpsLabel = new Label(window,
-								SDL_Rect{ 620, 200, 170, 70 },
+								SDL_Rect{ 610, 100, 170, 50 },
 								SDL_Color{ 255, 255, 255, 255 },
-								PIXEL_30,
+								PIXEL_24,
 								"FPS");
+
+	NumberEdit* widthEdit = new NumberEdit(window,
+										   PIXEL_24,
+										   SDL_Rect{ 795, 100, 60, 50 },
+										   SDL_Color{ 255, 255, 255, 255 },
+										   new std::string("../resources/editBackground.jpg"));
+
+	widthEdit->setText(new std::string("60"));
+	widthEdit->setCharLimit(3);
+
+	Label* widthLabel = new Label(window,
+								  SDL_Rect{ 765, 100, 170, 50 },
+								  SDL_Color{ 255, 255, 255, 255 },
+								  PIXEL_24,
+								  "W");
+
+	NumberEdit* heightEdit = new NumberEdit(window,
+											PIXEL_24,
+											SDL_Rect{ 920, 100, 60, 50 },
+											SDL_Color{ 255, 255, 255, 255 },
+											new std::string("../resources/editBackground.jpg"));
+
+	heightEdit->setText(new std::string("60"));
+	heightEdit->setCharLimit(3);
+
+	Label* heightLabel = new Label(window,
+								   SDL_Rect{ 890, 100, 170, 50 },
+								   SDL_Color{ 255, 255, 255, 255 },
+								   PIXEL_24,
+								   "H");
+
+	TextEdit* ruleEdit = new TextEdit(window,
+									  PIXEL_24,
+									  SDL_Rect{ 685, 170, 205, 50 },
+									  SDL_Color{ 255, 255, 255, 255 },
+									  new std::string("../resources/editBackground.jpg"));
+
+	ruleEdit->setText(new std::string("B3/S23"));
+	ruleEdit->setCharLimit(255);
+
+	Label* ruleLabel = new Label(window,
+								 SDL_Rect{ 610, 170, 170, 50 },
+								 SDL_Color{ 255, 255, 255, 255 },
+								 PIXEL_24,
+								 "Rule");
 
 	std::vector<SDL_Color> colors = { SDL_Color{0,0,0,255},
 									  SDL_Color{255,255,255,255} };
@@ -219,8 +227,8 @@ int main(int argc, char *argv[]) {
 												  30);
 
 	MenuPanel* menuPanel = new MenuPanel(window,
-										 SDL_Rect{ 600, 0, 250, 600 },
-										 (char*)"../resources/MenuPurpleNew.jpg");
+										 SDL_Rect{ 600, 0, 400, 600 },
+										 (char*)"../resources/MenuKatanaZero.jpg");
 
 	startButton->addFrameEdit(frameEdit);
 
@@ -233,6 +241,12 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(loadButton);
 	widgets.push_back(frameEdit);
 	widgets.push_back(fpsLabel);
+	widgets.push_back(widthEdit);
+	widgets.push_back(widthLabel);
+	widgets.push_back(heightEdit);
+	widgets.push_back(heightLabel);
+	widgets.push_back(ruleEdit);
+	widgets.push_back(ruleLabel);
 	widgets.push_back(colorPalette);
 
 	// ## MAIN LOOP

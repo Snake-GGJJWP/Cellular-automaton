@@ -137,8 +137,8 @@
     <ClCompile Include="ColorPalette.cpp" />
     <ClCompile Include="Edit.cpp" />
     <ClCompile Include="Field.cpp" />
-    <ClCompile Include="FrameEdit.cpp" />
-    <ClCompile Include="FrameEdit.h" />
+    <ClCompile Include="NumberEdit.cpp" />
+    <ClCompile Include="NumberEdit.h" />
     <ClCompile Include="FrameLimitter.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LoadButton.cpp" />
@@ -149,6 +149,7 @@
     <ClCompile Include="PresetService.cpp" />
     <ClCompile Include="SaveButton.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="tinyfiledialogs.c" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="PresetService.h" />
     <ClInclude Include="SaveButton.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="TextEdit.h" />
     <ClInclude Include="tinyfiledialogs.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="Window.h" />
