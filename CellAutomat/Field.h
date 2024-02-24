@@ -22,14 +22,19 @@ public:
 	void setDrawingColor(int code) { drawingColor = code; }
 	
 	void loadField(int h, int w, uint8_t** field);
+	// The 3 parameters are for passing values via them
+	void saveField(int* h, int* w, uint8_t*** field);
+
+	// turn everything 0 (black);
+	void clearField();
 
 	bool running() { return isRunning;  }
 
 private:
 
 	uint8_t** field;
-	int fieldHeight;
-	int fieldWidth;
+	int fieldHeight = 0;
+	int fieldWidth = 0;
 	int cellSize;
 
 	int cellHovered = -1; // -1 - if nothing hovered; 0 - w*h - number of cell hovered

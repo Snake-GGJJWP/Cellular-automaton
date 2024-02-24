@@ -1,14 +1,20 @@
 #include "LoadButton.h"
 #include "tinyfiledialogs.h"
 
-LoadButton::LoadButton(Window* win,
+LoadButton::LoadButton(Window* win, 
 					   Field* field,
-					   PresetController* presetController,
+					   NumberEdit* widthEdit,
+					   NumberEdit* heightEdit,
+					   TextEdit* ruleEdit,
+					   PresetController* presetController, 
 					   SDL_Rect cont, 
-					   char* pathToTexture,
+					   char* pathToTexture, 
 					   char* pathToTextureHover) : 
 	Button(win, cont),
 	field(field),
+	widthEdit(widthEdit),
+	heightEdit(heightEdit),
+	ruleEdit(ruleEdit),
 	presetController(presetController)
 {
 	setTexture(pathToTexture);
@@ -31,16 +37,8 @@ void LoadButton::onClick() {
 									patterns,
 									"presets");*/
 	if (s == NULL) {
-		std::cout << "NOTHING PICKED\n";
 		return;
 	}
-
-	int k = 0;
-	while (s[k] != '\0') {
-		std::cout << s[k];
-		k++;
-	}
-	std::cout << "\n";
 
 	PresetDTO* preset = presetController->load(s);
 
@@ -50,7 +48,11 @@ void LoadButton::onClick() {
 
 	field->loadField(preset->height, preset->width, preset->field);
 
+	widthEdit->setText(std::to_string(preset->width));
+	heightEdit->setText(std::to_string(preset->height));
+	ruleEdit->setText(preset->rule);
 
+	delete preset;
 	
 }
 

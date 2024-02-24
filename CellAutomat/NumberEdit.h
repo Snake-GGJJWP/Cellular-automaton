@@ -1,3 +1,4 @@
+#pragma once
 #include "Edit.h"
 #include <set>
 
@@ -8,7 +9,7 @@ public:
 			  TTF_Font* font,
 			  SDL_Rect container,
 			  SDL_Color textColor,
-			  std::string* pathToTexture);
+			  std::string pathToTexture);
 
 	void handleEvent(SDL_Event* event) override;
 

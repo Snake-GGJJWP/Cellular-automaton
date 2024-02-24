@@ -78,11 +78,7 @@ void AutomatonService::next() {
 }
 
 void AutomatonService::setField(uint8_t** newField) {
-	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
-			field[i][j] = newField[i][j];
-		}
-	}
+	field = newField;
 }
 
 void AutomatonService::initField() {

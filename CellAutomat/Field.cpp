@@ -115,8 +115,27 @@ void Field::setField() {
 }
 
 void Field::loadField(int h, int w, uint8_t** field) {
+	for (int i = 0; i < fieldHeight; i++) {
+		delete[] this->field[i];
+	}
+	delete[] this->field;
+
 	fieldHeight = h;
 	fieldWidth = w;
 	cellSize = (fieldHeight > fieldWidth) ? container.h / fieldHeight : container.w / fieldWidth;
 	this->field = field;
+}
+
+void Field::saveField(int* h, int* w, uint8_t*** field) {
+	*h = fieldHeight;
+	*w = fieldWidth;
+	*field = this->field;
+}
+
+void Field::clearField() {
+	for (int i = 0; i < fieldHeight; i++) {
+		for (int j = 0; j < fieldWidth; j++) {
+			field[i][j] = 0;
+		}
+	}
 }

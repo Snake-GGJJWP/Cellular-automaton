@@ -11,5 +11,4 @@ public:
 	std::string rule; // B../S.. rule
 	
 	std::vector<size_t> rleField; // cells represented as RLE
-
 };

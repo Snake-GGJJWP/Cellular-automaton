@@ -17,6 +17,10 @@ void printMat2(uint8_t** mat, int n, int m) {
 }
 
 Preset* PresetMapper::mapTo(PresetDTO* presetDTO) {
+	if (presetDTO == NULL) {
+		return NULL;
+	}
+
 	Preset* preset = new Preset();
 
 	// ## WIDTH ##
@@ -52,12 +56,24 @@ Preset* PresetMapper::mapTo(PresetDTO* presetDTO) {
 			count++;
 		}
 	}
+	arr.push_back(curNum);
+	arr.push_back(count);
+
 	preset->rleField = arr;
+
+	for (auto var : preset->rleField) {
+		std::cout << var << " ";
+	}
+	std::cout << "\n";
 
 	return preset;
 }
 
 PresetDTO* PresetMapper::mapFrom(Preset* preset) {
+	if (preset == NULL) {
+		return NULL;
+	}
+
 	PresetDTO* presetDTO = new PresetDTO();
 
 	// ## WIDTH ##
@@ -109,7 +125,7 @@ PresetDTO* PresetMapper::mapFrom(Preset* preset) {
 		k += count;
 	}
 
-	printMat2(field, preset->height, preset->width);
+	//printMat2(field, preset->height, preset->width);
 
 	presetDTO->field = field;
 

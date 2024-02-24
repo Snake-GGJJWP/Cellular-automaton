@@ -46,4 +46,25 @@ Preset* PresetDAO::load(const char* pathToFile) {
 }
 
 void PresetDAO::save(const char* pathToFile, Preset* preset) {
+	std::filesystem::path s = pathToFile;
+
+	if (s.extension() != ".json") {
+		std::cout << "Wrong file type\n";
+		return;
+	}
+
+	std::ofstream file(pathToFile);
+	if (!file.is_open()) {
+		std::cout << "Failed to open file\n";
+		return;
+	}
+
+	json in;
+
+	in["width"] = preset->width;
+	in["height"] = preset->height;
+	in["rule"] = preset->rule;
+	in["rleField"] = preset->rleField;
+
+	file << in.dump(4);
 }

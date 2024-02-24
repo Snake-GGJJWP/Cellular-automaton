@@ -6,17 +6,21 @@
 #include "StartButton.h"
 #include "SaveButton.h"
 #include "LoadButton.h"
+#include "SetButton.h"
+#include "ClearButton.h"
 #include "MenuPanel.h"
 #include "FrameLimitter.h"
 #include "Label.h"
 #include "ColorPalette.h"
-#include "TextEdit.h"
 
 const int WIN_WIDTH = 1000;
 const int WIN_HEIGHT = 600;
 const int WIN_FPS = -1;
 const int FIELD_WIDTH = 50;
 const int FIELD_HEIGHT = 50;
+
+// ## NOTES TO FUTURE SELF ##
+// Learn smart pointers!
 
 
 // ## MOST NOTABLE BUGS DURING DEVELOPMENT ##
@@ -42,6 +46,13 @@ const int FIELD_HEIGHT = 50;
 * Error appears when trying to create Texture for hovered StartButton...
 * 
 * But if I init them jsut before NumberEdit initialization it works ok...
+*/
+
+/*
+* DON'T UNDERESTIMATE PREPROCESSOR DIRECTIVES:
+* I killed ~1 hour and almost killed my mood while trying catching a "class redifinition" error
+* Turned out I, for some reason, forgot to put #pragma once directive to a header file 
+* where the problem class was defined...
 */
 
 /*
@@ -142,28 +153,15 @@ int main(int argc, char *argv[]) {
 											   (char*)"../resources/StopButtonPurple.jpg",
 											   (char*)"../resources/StopButtonPurpleOnHover.jpg");
 
-
-	SaveButton* saveButton = new SaveButton(window, 
-										    SDL_Rect{ 842, 20, 70, 70 }, 
-										    (char*)"../resources/SaveButton.jpg",
-											(char*)"../resources/SaveButtonHover.jpg");
-
-	LoadButton* loadButton = new LoadButton(window,
-											winField,
-											presetController,
-										    SDL_Rect{ 920, 20, 70, 70 }, 
-										    (char*)"../resources/LoadButton.jpg",
-											(char*)"../resources/LoadButtonHover.jpg");
-
 	TTF_Font* PIXEL_24 = loadFont("../resources/PixelDigivolve.ttf", 24);
 
 	NumberEdit* frameEdit = new NumberEdit(window,
-									     PIXEL_24,
-									     SDL_Rect{ 670, 100, 60, 50 },
-									     SDL_Color{ 255, 255, 255, 255 },
-									     new std::string("../resources/editBackground.jpg"));
+									       PIXEL_24,
+									       SDL_Rect{ 670, 100, 60, 50 },
+									       SDL_Color{ 255, 255, 255, 255 },
+									       "../resources/editBackground.jpg");
 
-	frameEdit->setText(new std::string("60"));
+	frameEdit->setText("60");
 	frameEdit->setCharLimit(3);
 
 	Label* fpsLabel = new Label(window,
@@ -176,9 +174,9 @@ int main(int argc, char *argv[]) {
 										   PIXEL_24,
 										   SDL_Rect{ 795, 100, 60, 50 },
 										   SDL_Color{ 255, 255, 255, 255 },
-										   new std::string("../resources/editBackground.jpg"));
+										   "../resources/editBackground.jpg");
 
-	widthEdit->setText(new std::string("60"));
+	widthEdit->setText("60");
 	widthEdit->setCharLimit(3);
 
 	Label* widthLabel = new Label(window,
@@ -191,9 +189,9 @@ int main(int argc, char *argv[]) {
 											PIXEL_24,
 											SDL_Rect{ 920, 100, 60, 50 },
 											SDL_Color{ 255, 255, 255, 255 },
-											new std::string("../resources/editBackground.jpg"));
+											"../resources/editBackground.jpg");
 
-	heightEdit->setText(new std::string("60"));
+	heightEdit->setText("60");
 	heightEdit->setCharLimit(3);
 
 	Label* heightLabel = new Label(window,
@@ -204,11 +202,11 @@ int main(int argc, char *argv[]) {
 
 	TextEdit* ruleEdit = new TextEdit(window,
 									  PIXEL_24,
-									  SDL_Rect{ 685, 170, 205, 50 },
+									  SDL_Rect{ 685, 170, 305, 50 },
 									  SDL_Color{ 255, 255, 255, 255 },
-									  new std::string("../resources/editBackground.jpg"));
+									  "../resources/editBackground.jpg");
 
-	ruleEdit->setText(new std::string("B3/S23"));
+	ruleEdit->setText("B3/S23");
 	ruleEdit->setCharLimit(255);
 
 	Label* ruleLabel = new Label(window,
@@ -220,9 +218,41 @@ int main(int argc, char *argv[]) {
 	std::vector<SDL_Color> colors = { SDL_Color{0,0,0,255},
 									  SDL_Color{255,255,255,255} };
 
+	SaveButton* saveButton = new SaveButton(window, 
+											winField,
+											presetController,
+										    SDL_Rect{ 842, 20, 70, 70 }, 
+										    (char*)"../resources/SaveButton.jpg",
+											(char*)"../resources/SaveButtonHover.jpg");
+
+	LoadButton* loadButton = new LoadButton(window,
+											winField,
+											widthEdit,
+											heightEdit,
+											ruleEdit,
+											presetController,
+										    SDL_Rect{ 920, 20, 70, 70 }, 
+										    (char*)"../resources/LoadButton.jpg",
+											(char*)"../resources/LoadButtonHover.jpg");
+
+	SetButton* setButton = new SetButton(window,
+										 winField,
+										 widthEdit,
+										 heightEdit,
+										 ruleEdit,
+										 SDL_Rect{ 695, 240, 210, 70 },
+										 (char*)"../resources/SetButton.jpg",
+										 (char*)"../resources/SetButtonHover.jpg");
+
+	ClearButton* clearButton = new ClearButton(window,
+											   winField,
+											   SDL_Rect{695, 510, 210, 70},
+											   (char*)"../resources/ClearButton.jpg",
+											   (char*)"../resources/ClearButtonHover.jpg");
+
 	ColorPalette* colorPalette = new ColorPalette(window,
 												  winField,
-												  SDL_Rect{620,290,210,50},
+												  SDL_Rect{610,330,210,50},
 												  colors,
 												  30);
 
@@ -239,6 +269,8 @@ int main(int argc, char *argv[]) {
 	widgets.push_back(startButton);
 	widgets.push_back(saveButton);
 	widgets.push_back(loadButton);
+	widgets.push_back(setButton);
+	widgets.push_back(clearButton);
 	widgets.push_back(frameEdit);
 	widgets.push_back(fpsLabel);
 	widgets.push_back(widthEdit);

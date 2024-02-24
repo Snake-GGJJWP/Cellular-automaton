@@ -10,5 +10,5 @@ Preset* PresetService::read(const char* pathToFile) {
 }
 
 void PresetService::save(const char* pathToFile, Preset* preset) {
-	// ...
+	PresetDAO::save(pathToFile, preset);
 }

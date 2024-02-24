@@ -40,9 +40,6 @@
     <Filter Include="Файлы заголовков\Widgets\Extend">
       <UniqueIdentifier>{2e209c4d-6eab-414a-8e7f-4c1c789c082c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Utrils">
-      <UniqueIdentifier>{c2f59f24-0cc0-4570-a8b1-625435510bf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы заголовков\DAO">
       <UniqueIdentifier>{fd839ea7-9169-46da-a98c-fcd490f2d304}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="Исходные файлы\Mappers">
       <UniqueIdentifier>{acf3d61b-8c44-4256-9606-aafdc7b8abcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Utils">
+      <UniqueIdentifier>{c2f59f24-0cc0-4570-a8b1-625435510bf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,14 +117,8 @@
     <ClCompile Include="ColorPalette.cpp">
       <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
-    <ClCompile Include="NumberEdit.cpp">
-      <Filter>Исходные файлы\Widgets\Extend</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="NumberEdit.h">
-      <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClCompile>
     <ClCompile Include="PresetDAO.cpp">
       <Filter>Исходные файлы\DAO</Filter>
@@ -133,6 +127,12 @@
       <Filter>Исходные файлы\Mappers</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberEdit.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
+    </ClCompile>
+    <ClCompile Include="SetButton.cpp">
       <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,7 +150,7 @@
       <Filter>Файлы заголовков\Services</Filter>
     </ClInclude>
     <ClInclude Include="tinyfiledialogs.h">
-      <Filter>Файлы заголовков\Utrils</Filter>
+      <Filter>Файлы заголовков\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Файлы заголовков\Widgets</Filter>
@@ -189,10 +189,10 @@
       <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
-      <Filter>Файлы заголовков\Utrils</Filter>
+      <Filter>Файлы заголовков\Utils</Filter>
     </ClInclude>
     <ClInclude Include="json_fwd.hpp">
-      <Filter>Файлы заголовков\Utrils</Filter>
+      <Filter>Файлы заголовков\Utils</Filter>
     </ClInclude>
     <ClInclude Include="PresetDAO.h">
       <Filter>Файлы заголовков\DAO</Filter>
@@ -208,6 +208,15 @@
     </ClInclude>
     <ClInclude Include="TextEdit.h">
       <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberEdit.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="SetButton.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearButton.h">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,10 +3,13 @@
 
 PresetDTO* PresetController::load(const char* pathToFile) {
 	Preset* preset = presetService->read(pathToFile);
-	return PresetMapper::mapFrom(preset);
+	PresetDTO* presetDTO = PresetMapper::mapFrom(preset);
+	delete preset;
+	return presetDTO;
 }
 
 void PresetController::save(const char* pathToFile, PresetDTO* presetDTO) {
 	Preset* preset = PresetMapper::mapTo(presetDTO);
+	delete presetDTO;
 	presetService->save(pathToFile, preset);
 }

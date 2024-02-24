@@ -51,10 +51,10 @@ void StartButton::onClick() {
 	field->setField();
 
 	int fps;
-	std::string* fpsString = frameEdit->getText();
-	std::cout << *fpsString << "\n";
+	std::string fpsString = frameEdit->getText();
+	std::cout << fpsString << "\n";
 
-	if (fpsString->length() == 0) {
+	if (fpsString.length() == 0) {
 		std::cout << "FPS where?\n";
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
 								(char*)"INPUT ERROR",
@@ -67,7 +67,7 @@ void StartButton::onClick() {
 	// If we found incorrect symbol in text then
 	// show it to user, keep the default FPS (MAX_FPS / 2)
 	// else parse the text into int
-	for (auto it = fpsString->begin(); it != fpsString->end(); ++it) {
+	for (auto it = fpsString.begin(); it != fpsString.end(); ++it) {
 		// if current symbol is not in allowed list then ...
 		if (frameEdit->ALLOWED_SYMBOLS.find(*it) == frameEdit->ALLOWED_SYMBOLS.end()) {
 			std::cout << "Wrong symbol\n";
@@ -81,7 +81,7 @@ void StartButton::onClick() {
 	}
 
 	try {
-		fps = std::stoi(*fpsString);
+		fps = std::stoi(fpsString);
 	}
 	catch (const std::out_of_range) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,

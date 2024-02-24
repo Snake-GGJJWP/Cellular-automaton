@@ -1,17 +1,17 @@
 #include "Edit.h"
 
 Edit::Edit(Window* win, 
-		   std::string* ttfFile, 
+		   std::string ttfFile, 
 		   int fontSize,
 		   SDL_Rect cont,
 		   SDL_Color textColor,
-		   std::string* pathToTexture) :
+		   std::string pathToTexture) :
 	Widget(win, cont),
 	textColor(textColor),
 	renderer(win->getRenderer())
 {
 	loadFont(ttfFile, fontSize);
-	texture = loadTexture(pathToTexture->c_str());
+	texture = loadTexture(pathToTexture.c_str());
 
 	int w, h;
 	TTF_SizeText(font, "|", &w, &h);
@@ -22,13 +22,13 @@ Edit::Edit(Window* win,
 		   TTF_Font* font, 
 		   SDL_Rect cont,
 		   SDL_Color textColor,
-		   std::string* pathToTexture) :
+		   std::string pathToTexture) :
 	Widget(win, cont),
 	font(font),
 	textColor(textColor),
 	renderer(win->getRenderer())
 {
-	texture = loadTexture(pathToTexture->c_str());
+	texture = loadTexture(pathToTexture.c_str());
 	int w, h;
 	TTF_SizeText(font, "|", &w, &h);
 	cursorWidth = w;
@@ -52,15 +52,15 @@ void Edit::handleEvent(SDL_Event* event) {
 	//Special key input
 	case SDL_KEYDOWN:
 		//BACKSPACE
-		if (event->key.keysym.sym == SDLK_BACKSPACE && editString->length() > 0 && indToPlace > 0)
+		if (event->key.keysym.sym == SDLK_BACKSPACE && editString.length() > 0 && indToPlace > 0)
 		{
 			// Getting size of symbol we deleted
 			int w, h;
-			TTF_SizeText(font, editString->substr(indToPlace-1, 1).c_str(), &w, &h);
+			TTF_SizeText(font, editString.substr(indToPlace-1, 1).c_str(), &w, &h);
 
 			std::cout << w << "\n";
 
-			editString->erase(indToPlace - 1, 1);
+			editString.erase(indToPlace - 1, 1);
 			indToPlace--;
 			startX = (startX - w) <= 0 ? 0 : startX - w; // move cutting pointer to sym width to left
 		}
@@ -68,19 +68,19 @@ void Edit::handleEvent(SDL_Event* event) {
 		//COPY
 		else if (event->key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
 		{
-			SDL_SetClipboardText(editString->c_str());
+			SDL_SetClipboardText(editString.c_str());
 		}
 
 		//PASTE
 		else if (event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
 		{
-			*editString = SDL_GetClipboardText();
-			if (stringLimit >= 0 && editString->length() > charLimit) {
+			editString = SDL_GetClipboardText();
+			if (stringLimit >= 0 && editString.length() > charLimit) {
 				std::cout << "Hewwo!\n";
-				editString->erase(charLimit, editString->length() - charLimit);
+				editString.erase(charLimit, editString.length() - charLimit);
 				std::cout << "Hewwo!\n";
 			}
-			indToPlace = editString->length();
+			indToPlace = editString.length();
 			int cW = cursorX();
 			startX = cW > (startX + container.w - TEXT_MARGIN) ? cW - (container.w - TEXT_MARGIN) : startX;
 		}
@@ -97,7 +97,7 @@ void Edit::handleEvent(SDL_Event* event) {
 
 		//MOVE CURSOR RIGHT
 		else if (event->key.keysym.sym == SDLK_RIGHT) {
-			indToPlace += indToPlace >= editString->length() ? 0 : 1; // don't increment if it's already reached the end
+			indToPlace += indToPlace >= editString.length() ? 0 : 1; // don't increment if it's already reached the end
 
 			// Check if cursor is out of field
 			// If it is then move starting rendering point to cursor
@@ -114,10 +114,10 @@ void Edit::handleEvent(SDL_Event* event) {
 		if (!(SDL_GetModState() & KMOD_CTRL &&
 			(event->text.text[0] == 'c' || event->text.text[0] == 'C' ||
 				event->text.text[0] == 'v' || event->text.text[0] == 'V')) &&
-			(charLimit < 0 || editString->length() < charLimit))
+			(charLimit < 0 || editString.length() < charLimit))
 		{
 			//Append character
-			editString->insert(indToPlace, 1, event->text.text[0]);
+			editString.insert(indToPlace, 1, event->text.text[0]);
 			indToPlace++;
 
 			// Check if cursor is out of field
@@ -142,11 +142,11 @@ void Edit::renderText() {
 	}
 
 	std::string renderString;
-	renderString = *editString;
+	renderString = editString;
 
 	// Add cursor if needed
 	if (isFocused) {
-		renderString.insert(indToPlace - (editString->length() - renderString.length()), "|");
+		renderString.insert(indToPlace - (editString.length() - renderString.length()), "|");
 	}
 
 	// Create texture if there's something to render...
@@ -169,8 +169,8 @@ void Edit::renderText() {
 	}
 }
 
-void Edit::loadFont(std::string* ttfFile, int fontSize) {
-	font = TTF_OpenFont(ttfFile->c_str(), fontSize);
+void Edit::loadFont(std::string ttfFile, int fontSize) {
+	font = TTF_OpenFont(ttfFile.c_str(), fontSize);
 	if (font == NULL) {
 		std::cout << "FAILED TO LOAD THE FONT\n";
 		std::cout << TTF_GetError();
@@ -178,10 +178,9 @@ void Edit::loadFont(std::string* ttfFile, int fontSize) {
 	}
 }
 
-void Edit::setText(std::string * str) {
-	delete editString;
+void Edit::setText(std::string str) {
 	editString = str;
-	indToPlace = editString->length();
+	indToPlace = editString.length();
 };
 
 void Edit::setCharLimit(int limit) {
@@ -190,6 +189,6 @@ void Edit::setCharLimit(int limit) {
 
 int Edit::cursorX() {
 	int w, h;
-	TTF_SizeText(font, (editString->substr(0, indToPlace)+"|").c_str(), &w, &h);
+	TTF_SizeText(font, (editString.substr(0, indToPlace)+"|").c_str(), &w, &h);
 	return w;
 }
