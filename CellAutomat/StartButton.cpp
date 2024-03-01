@@ -48,7 +48,7 @@ void StartButton::render() {
 }
 
 void StartButton::onClick() {
-	field->setField();
+	// field->setField();
 
 	int fps;
 	std::string fpsString = frameEdit->getText();
@@ -67,6 +67,7 @@ void StartButton::onClick() {
 	// If we found incorrect symbol in text then
 	// show it to user, keep the default FPS (MAX_FPS / 2)
 	// else parse the text into int
+	// Maybe move this logic to FrameLimitter?
 	for (auto it = fpsString.begin(); it != fpsString.end(); ++it) {
 		// if current symbol is not in allowed list then ...
 		if (frameEdit->ALLOWED_SYMBOLS.find(*it) == frameEdit->ALLOWED_SYMBOLS.end()) {

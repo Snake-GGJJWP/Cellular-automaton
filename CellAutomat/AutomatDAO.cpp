@@ -1,9 +1,9 @@
 #include <fstream>
 #include <filesystem>
 
-#include "PresetDAO.h"
+#include "AutomatDAO.h"
 
-Preset* PresetDAO::load(const char* pathToFile) {
+Automat* AutomatDAO::load(const char* pathToFile) {
 	std::filesystem::path s = pathToFile;
 
 	if (s.extension() != ".json") {
@@ -27,25 +27,25 @@ Preset* PresetDAO::load(const char* pathToFile) {
 		return NULL;
 	}
 
-	Preset* preset = new Preset();
+	Automat* automat = new Automat();
 
 	try {
-		preset->width = out["width"];
-		preset->height = out["height"];
-		preset->rule = out["rule"];
+		automat->width = out["width"];
+		automat->height = out["height"];
+		automat->rule = out["rule"];
 
 		std::vector<size_t> arr = out["rleField"];
-		preset->rleField = arr;
+		automat->rleField = arr;
 	}
 	catch (json::type_error& ex) {
 		std::cout << "Invalid types or field names" << ex.what();
 		return NULL;
 	}
 
-	return preset;
+	return automat;
 }
 
-void PresetDAO::save(const char* pathToFile, Preset* preset) {
+void AutomatDAO::save(const char* pathToFile, Automat* automat) {
 	std::filesystem::path s = pathToFile;
 
 	if (s.extension() != ".json") {
@@ -61,10 +61,10 @@ void PresetDAO::save(const char* pathToFile, Preset* preset) {
 
 	json in;
 
-	in["width"] = preset->width;
-	in["height"] = preset->height;
-	in["rule"] = preset->rule;
-	in["rleField"] = preset->rleField;
+	in["width"] = automat->width;
+	in["height"] = automat->height;
+	in["rule"] = automat->rule;
+	in["rleField"] = automat->rleField;
 
 	file << in.dump(4);
 }

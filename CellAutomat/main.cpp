@@ -21,6 +21,9 @@ const int FIELD_HEIGHT = 50;
 
 // ## NOTES TO FUTURE SELF ##
 // Learn smart pointers!
+// Write tests!
+// Refactor architechture (make Widget head class and move the main loop to window)
+// Make back and fron less linked and make widgets less linked
 
 
 // ## MOST NOTABLE BUGS DURING DEVELOPMENT ##
@@ -64,7 +67,7 @@ const int FIELD_HEIGHT = 50;
 * 2) Make prettier GUI [+]
 * 
 * 3) Make customizable automotons
-*	3.0) Make editable field. (size, pallete)
+*	3.0) Make editable field. (size, pallete) [+]
 *	3.1) Apply B../S.. rule (string -> rules parser)
 *	3.2) Apply generations rules 
 *	// --- FOR LATER ---
@@ -127,6 +130,7 @@ int main(int argc, char *argv[]) {
 	std::vector<Widget*> widgets;
 
 	// ## WIDGETS INITIALIZATION ##
+	// Maybe make in another class
 	Window* window = new Window(WindowSettings {(char*) "Automaton", 
 												SDL_WINDOWPOS_CENTERED, 
 												SDL_WINDOWPOS_CENTERED, 
@@ -135,11 +139,11 @@ int main(int argc, char *argv[]) {
 												WIN_FPS, 
 												false});
 
-	AutomatonService* automatonService = new AutomatonService(FIELD_HEIGHT, FIELD_WIDTH);
+	AutomatonService* automatonService = new AutomatonService();
 	AutomatonController* automatonController = new AutomatonController(automatonService);
 
-	PresetService* presetService = new PresetService();
-	PresetController* presetController = new PresetController(presetService);
+	//PresetService* presetService = new PresetService();
+	//PresetController* presetController = new PresetController(presetService);
 
 	Field* winField = new Field(window,
 								automatonController,
@@ -220,7 +224,7 @@ int main(int argc, char *argv[]) {
 
 	SaveButton* saveButton = new SaveButton(window, 
 											winField,
-											presetController,
+											automatonController,
 										    SDL_Rect{ 842, 20, 70, 70 }, 
 										    (char*)"../resources/SaveButton.jpg",
 											(char*)"../resources/SaveButtonHover.jpg");
@@ -230,7 +234,7 @@ int main(int argc, char *argv[]) {
 											widthEdit,
 											heightEdit,
 											ruleEdit,
-											presetController,
+											automatonController,
 										    SDL_Rect{ 920, 20, 70, 70 }, 
 										    (char*)"../resources/LoadButton.jpg",
 											(char*)"../resources/LoadButtonHover.jpg");

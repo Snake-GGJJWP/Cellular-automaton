@@ -3,15 +3,15 @@
 #include "Field.h"
 #include "TextEdit.h"
 #include "NumberEdit.h"
-#include "PresetController.h"
-#include "PresetDTO.h"
+#include "AutomatonController.h"
+#include "AutomatDTO.h"
 
 class SaveButton : public Button
 {
 public:
 	SaveButton(Window* win, 
 			   Field* field,
-			   PresetController* presetController, 
+			   AutomatonController* automatonController, 
 			   SDL_Rect cont, 
 			   char* pathToTexture, 
 			   char* pathToTextureHover);
@@ -19,5 +19,5 @@ public:
 private:
 	void onClick();
 	Field* field;
-	PresetController* presetController;
+	AutomatonController* automatonController;
 };

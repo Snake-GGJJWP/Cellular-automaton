@@ -3,8 +3,8 @@
 #include "Field.h"
 #include "TextEdit.h"
 #include "NumberEdit.h"
-#include "PresetController.h"
-#include "PresetDTO.h"
+#include "AutomatonController.h"
+#include "AutomatDTO.h"
 
 class LoadButton : public Button
 {
@@ -14,7 +14,7 @@ public:
 			   NumberEdit* widthEdit,
 			   NumberEdit* heightEdit,
 			   TextEdit* ruleEdit,
-			   PresetController* presetController, 
+			   AutomatonController* automatonController, 
 			   SDL_Rect cont, 
 			   char* pathToTexture, 
 			   char* pathToTextureHover);
@@ -23,7 +23,7 @@ private:
 	void onClick();
 
 	Field* field;
-	PresetController* presetController;
+	AutomatonController* automatonController;
 	NumberEdit* widthEdit;
 	NumberEdit* heightEdit;
 	TextEdit* ruleEdit;

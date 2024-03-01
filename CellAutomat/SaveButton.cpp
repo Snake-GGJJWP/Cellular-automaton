@@ -4,13 +4,13 @@
 // I think we don't need Edits here. It's much better to take from Field to avoid occasional broken save files
 SaveButton::SaveButton(Window* win, 
 					   Field* field,
-					   PresetController* presetController, 
+					   AutomatonController* automatonController, 
 					   SDL_Rect cont, 
 					   char* pathToTexture, 
 					   char* pathToTextureHover) : 
 	Button(win, cont),
 	field(field),
-	presetController(presetController)
+	automatonController(automatonController)
 {
 	setTexture(pathToTexture);
 	setTextureHover(pathToTextureHover);
@@ -27,19 +27,7 @@ void SaveButton::onClick() {
 		return;
 	}
 
-	PresetDTO* presetDTO = new PresetDTO();
+	AutomatDTO* automatDTO = field->getAutomat();
 
-	int w, h;
-
-	//field->saveField((int*)&presetDTO->height, (int*)&presetDTO->width, &presetDTO->field);
-
-	field->saveField(&h, &w, &presetDTO->field);
-
-	presetDTO->height = (uint16_t)h;
-	presetDTO->width = (uint16_t)w;
-	presetDTO->rule = "B2/S23"; // we'll take it from the field in future;
-
-	//std::cout << presetDTO->height << " " << presetDTO->width << "\n";
-
-	presetController->save(s, presetDTO);
+	automatonController->save(s, automatDTO);
 }

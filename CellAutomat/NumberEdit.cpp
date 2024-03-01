@@ -13,7 +13,8 @@ NumberEdit::NumberEdit(Window* win,
 }
 
 void NumberEdit::handleEvent(SDL_Event* event) {
-	if (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) {
+	bool isClickCtrlV = event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL;
+	if (isClickCtrlV) {
 		std::string clip = SDL_GetClipboardText();
 		for (auto it = clip.begin(); it != clip.end(); ++it) {
 			// if current symbol is not in allowed list then ...

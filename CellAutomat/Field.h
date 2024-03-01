@@ -1,12 +1,13 @@
 #pragma once
 #include "Widget.h"
 #include "AutomatonController.h"
+#include "AutomatDTO.h"
 #include <iostream>
 
 class Field : public Widget
 {
 public:
-	Field(Window* window, AutomatonController* automaotnController, SDL_Rect container);
+	Field(Window* window, AutomatonController* automatonController, SDL_Rect container);
 	void handleEvent(SDL_Event*) override;
 	void render() override;
 	void update() override;
@@ -15,15 +16,14 @@ public:
 	void switchRunning() { isRunning = !isRunning; }
 
 	// pass Field.field to AutomatonService
-	void setField();
+	/*void setField();*/
 
 	// set the "color" of the cells we add
 	// by color I mean the type of a cell (alive, dead, killer, generations etc)
 	void setDrawingColor(int code) { drawingColor = code; }
 	
-	void loadField(int h, int w, uint8_t** field);
-	// The 3 parameters are for passing values via them
-	void saveField(int* h, int* w, uint8_t*** field);
+	void setAutomat(AutomatDTO*);
+	AutomatDTO* getAutomat();
 
 	// turn everything 0 (black);
 	void clearField();
@@ -32,9 +32,11 @@ public:
 
 private:
 
-	uint8_t** field;
-	int fieldHeight = 0;
-	int fieldWidth = 0;
+	//uint8_t** field;
+	//int fieldHeight = 0;
+	//int fieldWidth = 0;
+	AutomatDTO* automat;
+
 	int cellSize;
 
 	int cellHovered = -1; // -1 - if nothing hovered; 0 - w*h - number of cell hovered

@@ -3,7 +3,7 @@
 #include <string>
 #pragma once
 
-class Preset
+class Automat
 {
 public:
 	uint16_t width;

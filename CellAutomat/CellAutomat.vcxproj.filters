@@ -72,13 +72,7 @@
     <ClCompile Include="AutomatonService.cpp">
       <Filter>Исходные файлы\Services</Filter>
     </ClCompile>
-    <ClCompile Include="PresetService.cpp">
-      <Filter>Исходные файлы\Services</Filter>
-    </ClCompile>
     <ClCompile Include="AutomatonController.cpp">
-      <Filter>Исходные файлы\Controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="PresetController.cpp">
       <Filter>Исходные файлы\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="Buton.cpp">
@@ -120,10 +114,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="PresetDAO.cpp">
+    <ClCompile Include="AutomatDAO.cpp">
       <Filter>Исходные файлы\DAO</Filter>
     </ClCompile>
-    <ClCompile Include="PresetMapper.cpp">
+    <ClCompile Include="AutomatMapper.cpp">
       <Filter>Исходные файлы\Mappers</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp">
@@ -140,13 +134,7 @@
     <ClInclude Include="AutomatonController.h">
       <Filter>Файлы заголовков\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="PresetController.h">
-      <Filter>Файлы заголовков\Controllers</Filter>
-    </ClInclude>
     <ClInclude Include="AutomatonService.h">
-      <Filter>Файлы заголовков\Services</Filter>
-    </ClInclude>
-    <ClInclude Include="PresetService.h">
       <Filter>Файлы заголовков\Services</Filter>
     </ClInclude>
     <ClInclude Include="tinyfiledialogs.h">
@@ -194,16 +182,16 @@
     <ClInclude Include="json_fwd.hpp">
       <Filter>Файлы заголовков\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PresetDAO.h">
+    <ClInclude Include="AutomatDAO.h">
       <Filter>Файлы заголовков\DAO</Filter>
     </ClInclude>
-    <ClInclude Include="Preset.h">
+    <ClInclude Include="Automat.h">
       <Filter>Файлы заголовков\Models</Filter>
     </ClInclude>
-    <ClInclude Include="PresetDTO.h">
+    <ClInclude Include="AutomatDTO.h">
       <Filter>Файлы заголовков\DTO</Filter>
     </ClInclude>
-    <ClInclude Include="PresetMapper.h">
+    <ClInclude Include="AutomatMapper.h">
       <Filter>Файлы заголовков\Mappers</Filter>
     </ClInclude>
     <ClInclude Include="TextEdit.h">

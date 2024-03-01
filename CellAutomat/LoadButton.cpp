@@ -6,7 +6,7 @@ LoadButton::LoadButton(Window* win,
 					   NumberEdit* widthEdit,
 					   NumberEdit* heightEdit,
 					   TextEdit* ruleEdit,
-					   PresetController* presetController, 
+					   AutomatonController* automatonController, 
 					   SDL_Rect cont, 
 					   char* pathToTexture, 
 					   char* pathToTextureHover) : 
@@ -15,7 +15,7 @@ LoadButton::LoadButton(Window* win,
 	widthEdit(widthEdit),
 	heightEdit(heightEdit),
 	ruleEdit(ruleEdit),
-	presetController(presetController)
+	automatonController(automatonController)
 {
 	setTexture(pathToTexture);
 	setTextureHover(pathToTextureHover);
@@ -40,20 +40,17 @@ void LoadButton::onClick() {
 		return;
 	}
 
-	PresetDTO* preset = presetController->load(s);
+	AutomatDTO* preset = automatonController->load(s);
 
 	if (preset == NULL) {
 		return;
 	}
 
-	field->loadField(preset->height, preset->width, preset->field);
+	field->setAutomat(preset);
 
 	widthEdit->setText(std::to_string(preset->width));
 	heightEdit->setText(std::to_string(preset->height));
 	ruleEdit->setText(preset->rule);
-
-	delete preset;
-	
 }
 
 // ## DEPRECATED CODE THAT I CAN'T DELETE FOR SOME REASON ##

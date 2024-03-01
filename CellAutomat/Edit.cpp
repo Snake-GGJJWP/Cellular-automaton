@@ -76,9 +76,7 @@ void Edit::handleEvent(SDL_Event* event) {
 		{
 			editString = SDL_GetClipboardText();
 			if (stringLimit >= 0 && editString.length() > charLimit) {
-				std::cout << "Hewwo!\n";
 				editString.erase(charLimit, editString.length() - charLimit);
-				std::cout << "Hewwo!\n";
 			}
 			indToPlace = editString.length();
 			int cW = cursorX();

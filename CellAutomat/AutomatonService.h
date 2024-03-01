@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
-#include <fstream>
+#include <set>
+#include "Automat.h"
+#include "AutomatDTO.h"
 
 
 /*
@@ -16,24 +18,32 @@
 class AutomatonService
 {
 public:
-	AutomatonService(int, int);
-	AutomatonService(int, int, uint8_t**);
+	//AutomatonService();
 	
-	void initField();
+	//void initField();
 
-	void next();
+	void next(AutomatDTO* automatDTO);
 
-	uint8_t** getField() { return field; }
-	void setField(uint8_t**);
+	Automat* read(const char* pathToFile);
+	void save(const char* pathToFile, Automat* preset);
 
-	int getWidth() { return w; }
-	int getHeight() { return h; }
-	void setWidth(int w) { this->w = w; }
-	void setHeight(int h) { this->h = h; }
+	//uint8_t** getField() { return field; }
+	//int getWidth() { return w; }
+	//int getHeight() { return h; }
+
+	//// Do we need to check these values?
+	//void setField(uint8_t**);
+	//void setWidth(int w) { this->w = w; }
+	//void setHeight(int h) { this->h = h; }
+
+	//bool setRule(std::string rule);
 
 private:
 	
-	uint8_t** field; // 2d array
-	int w, h;
+	//uint8_t** field; // 2d array
+	//int w, h;
+	//std::set<uint8_t> birth; // number of cells to create a cell
+	//std::set<uint8_t> survive; // number of cells for cell to survive
 
+	const std::set <char> NUMBERS = { '1','2','3','4','5','6','7','8','9','0' };
 };
