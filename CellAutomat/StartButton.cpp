@@ -3,7 +3,7 @@
 #include "StartButton.h"
 
 const int FPS_MAX = 120;
-const int FPS_MIN = 5;
+const int FPS_MIN = 1;
 
 
 StartButton::StartButton(Window* win,

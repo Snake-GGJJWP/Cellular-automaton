@@ -6,6 +6,7 @@ LoadButton::LoadButton(Window* win,
 					   NumberEdit* widthEdit,
 					   NumberEdit* heightEdit,
 					   TextEdit* ruleEdit,
+					   ColorPalette* colorPalette,
 					   AutomatonController* automatonController, 
 					   SDL_Rect cont, 
 					   char* pathToTexture, 
@@ -15,6 +16,7 @@ LoadButton::LoadButton(Window* win,
 	widthEdit(widthEdit),
 	heightEdit(heightEdit),
 	ruleEdit(ruleEdit),
+	colorPalette(colorPalette),
 	automatonController(automatonController)
 {
 	setTexture(pathToTexture);
@@ -47,6 +49,7 @@ void LoadButton::onClick() {
 	}
 
 	field->setAutomat(preset);
+	colorPalette->setColors(field->getColors());
 
 	widthEdit->setText(std::to_string(preset->width));
 	heightEdit->setText(std::to_string(preset->height));

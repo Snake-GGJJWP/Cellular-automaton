@@ -5,6 +5,8 @@ const uint16_t MAX_WIDTH = 600;
 const uint16_t MIN_WIDTH = 1;
 const uint16_t MAX_HEIGHT = 600;
 const uint16_t MIN_HEIGHT = 1;
+const uint8_t MAX_GENERATIONS = 60;
+const uint8_t MIN_GENERATIONS = 1;
 
 Automat* AutomatMapper::mapTo(AutomatDTO* automatDTO) {
 	if (automatDTO == NULL) {
@@ -123,6 +125,7 @@ AutomatDTO* AutomatMapper::mapFrom(Automat* automat) {
 bool AutomatMapper::parseRule(std::string rule, AutomatDTO* automatDTO) {
 	std::set<uint8_t> newBirth;
 	std::set<uint8_t> newSurvive;
+	int newGen = 0;
 
 	if (rule.length() == 0) {
 		std::cout << "Empty rule!\n";
@@ -136,6 +139,7 @@ bool AutomatMapper::parseRule(std::string rule, AutomatDTO* automatDTO) {
 
 	auto it = rule.begin() + 1;
 
+	// Get birth conditions
 	while (*it != '/')
 	{
 		std::cout << "WE HAVE: " << *it << "\n";
@@ -152,7 +156,7 @@ bool AutomatMapper::parseRule(std::string rule, AutomatDTO* automatDTO) {
 			return false;
 		}
 	}
-	
+
 	if (toupper(*(++it)) != 'S') {
 		std::cout << "Bad rule! Survival conditions must start with \'S\'!";
 		return false;
@@ -160,7 +164,8 @@ bool AutomatMapper::parseRule(std::string rule, AutomatDTO* automatDTO) {
 
 	it++;
 
-	while (it != rule.end())
+	// Get survival conditions
+	while (it != rule.end() && *it != '/')
 	{
 		if (NUMBERS.find(*it) == NUMBERS.end()) {
 			std::cout << "Bad rule! Conditions must contain numbers!\n";
@@ -171,6 +176,31 @@ bool AutomatMapper::parseRule(std::string rule, AutomatDTO* automatDTO) {
 		it++;
 	}
 
+	if (it == rule.end()) {
+		std::cout << "No generations\n";
+		automatDTO->birth = newBirth;
+		automatDTO->survive = newSurvive;
+		automatDTO->generations = 2;
+		return true;
+	}
+
+	// Get generations
+	it++;
+	while (it != rule.end()) {
+		if (NUMBERS.find(*it) == NUMBERS.end()) {
+			std::cout << "Bad rule! Conditions must contain numbers!\n";
+			return false;
+		}
+		newGen = newGen*10 + (*it - '0');
+		it++;
+	}
+
+	if (newGen < MIN_GENERATIONS || newGen > MAX_GENERATIONS) {
+		std::cout << "Invalid number of generations!\n";
+		return false;
+	}
+
+	automatDTO->generations = newGen;
 	automatDTO->birth = newBirth;
 	automatDTO->survive = newSurvive;
 	return true;

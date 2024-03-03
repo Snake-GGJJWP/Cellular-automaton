@@ -25,10 +25,10 @@ ColorPalette::ColorPalette(Window* win,
 */
 void ColorPalette::setColors(std::vector<SDL_Color> colors) {
 	colorButtons.clear();
+	int i = 0;
+	int j = 0;
+	int code = 0;
 	for (auto color : colors) {
-		static int i = 0;
-		static int j = 0;
-		static int code = 0;
 		SDL_Rect cont = { container.x + buttonSize * i++,
 						  container.y + buttonSize * j,
 						  buttonSize,

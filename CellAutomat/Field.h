@@ -3,6 +3,7 @@
 #include "AutomatonController.h"
 #include "AutomatDTO.h"
 #include <iostream>
+#include <vector>
 
 class Field : public Widget
 {
@@ -30,7 +31,12 @@ public:
 
 	bool running() { return isRunning;  }
 
+	std::vector<SDL_Color> getColors() { return colors; }
+
 private:
+
+	void setColorsForGenerations();
+	SDL_Color HSBtoRGB(int h, double s, double b);
 
 	//uint8_t** field;
 	//int fieldHeight = 0;
@@ -45,6 +51,11 @@ private:
 	bool isMouseButtonPressed = false;
 
 	int drawingColor = 1; // this will be put to a cell we want to color
+
+	// Colors of cell states
+	// Only black and white at first
+	std::vector<SDL_Color> colors = { SDL_Color{0,0,0,255},
+									  SDL_Color{255,255,255,255} };
 
 	Window* window;
 	SDL_Renderer* renderer;

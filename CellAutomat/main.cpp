@@ -83,6 +83,8 @@ const int FIELD_HEIGHT = 50;
 * 5) Make exception handling
 */
 
+
+
 // Make another class which would start things we need?
 void initLibs() {
 	// Start SDL
@@ -180,7 +182,7 @@ int main(int argc, char *argv[]) {
 										   SDL_Color{ 255, 255, 255, 255 },
 										   "../resources/editBackground.jpg");
 
-	widthEdit->setText("60");
+	widthEdit->setText("50");
 	widthEdit->setCharLimit(3);
 
 	Label* widthLabel = new Label(window,
@@ -195,7 +197,7 @@ int main(int argc, char *argv[]) {
 											SDL_Color{ 255, 255, 255, 255 },
 											"../resources/editBackground.jpg");
 
-	heightEdit->setText("60");
+	heightEdit->setText("50");
 	heightEdit->setCharLimit(3);
 
 	Label* heightLabel = new Label(window,
@@ -220,7 +222,15 @@ int main(int argc, char *argv[]) {
 								 "Rule");
 
 	std::vector<SDL_Color> colors = { SDL_Color{0,0,0,255},
-									  SDL_Color{255,255,255,255} };
+									  SDL_Color{255,255,255,255}};
+
+	ColorPalette* colorPalette = new ColorPalette(window,
+												  winField,
+												  SDL_Rect{610,330,380,50},
+												  colors,
+												  30);
+
+
 
 	SaveButton* saveButton = new SaveButton(window, 
 											winField,
@@ -234,6 +244,7 @@ int main(int argc, char *argv[]) {
 											widthEdit,
 											heightEdit,
 											ruleEdit,
+											colorPalette,
 											automatonController,
 										    SDL_Rect{ 920, 20, 70, 70 }, 
 										    (char*)"../resources/LoadButton.jpg",
@@ -244,6 +255,7 @@ int main(int argc, char *argv[]) {
 										 widthEdit,
 										 heightEdit,
 										 ruleEdit,
+										 colorPalette,
 										 SDL_Rect{ 695, 240, 210, 70 },
 										 (char*)"../resources/SetButton.jpg",
 										 (char*)"../resources/SetButtonHover.jpg");
@@ -253,12 +265,6 @@ int main(int argc, char *argv[]) {
 											   SDL_Rect{695, 510, 210, 70},
 											   (char*)"../resources/ClearButton.jpg",
 											   (char*)"../resources/ClearButtonHover.jpg");
-
-	ColorPalette* colorPalette = new ColorPalette(window,
-												  winField,
-												  SDL_Rect{610,330,210,50},
-												  colors,
-												  30);
 
 	MenuPanel* menuPanel = new MenuPanel(window,
 										 SDL_Rect{ 600, 0, 400, 600 },

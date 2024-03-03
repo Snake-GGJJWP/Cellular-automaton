@@ -3,6 +3,7 @@
 #include "Field.h"
 #include "TextEdit.h"
 #include "NumberEdit.h"
+#include "ColorPalette.h"
 #include "AutomatonController.h"
 #include "AutomatDTO.h"
 
@@ -14,6 +15,7 @@ public:
 			   NumberEdit* widthEdit,
 			   NumberEdit* heightEdit,
 			   TextEdit* ruleEdit,
+			   ColorPalette* colorPalette,
 			   AutomatonController* automatonController, 
 			   SDL_Rect cont, 
 			   char* pathToTexture, 
@@ -27,4 +29,5 @@ private:
 	NumberEdit* widthEdit;
 	NumberEdit* heightEdit;
 	TextEdit* ruleEdit;
+	ColorPalette* colorPalette;
 };
