@@ -1,7 +1,10 @@
 #pragma once
+#include <iostream>
+#include <set>
+#include "Automat.h"
+#include "AutomatDTO.h"
 
 
-// Maybe use generics? templates
 /*
 * TODO:
 * *Make the Automat interface and implent it to different types of Automat (INT, anisotrop, generations etc)
@@ -15,23 +18,32 @@
 class AutomatonService
 {
 public:
-	AutomatonService(int, int);
-	AutomatonService(int, int, bool**);
+	//AutomatonService();
 	
-	void initField();
+	//void initField();
 
-	void next();
+	void next(AutomatDTO* automatDTO);
 
-	bool** getField() { return field; }
-	void setField(bool**);
+	Automat* read(const char* pathToFile);
+	void save(const char* pathToFile, Automat* preset);
 
-	int getWidth() { return w; }
-	int getHeight() { return h; }
+	//uint8_t** getField() { return field; }
+	//int getWidth() { return w; }
+	//int getHeight() { return h; }
+
+	//// Do we need to check these values?
+	//void setField(uint8_t**);
+	//void setWidth(int w) { this->w = w; }
+	//void setHeight(int h) { this->h = h; }
+
+	//bool setRule(std::string rule);
 
 private:
 	
-	// We use bool because we represent only 2 states: live or dead. Save memory... Probably
-	bool** field; // 2d array
-	int w, h;
+	//uint8_t** field; // 2d array
+	//int w, h;
+	//std::set<uint8_t> birth; // number of cells to create a cell
+	//std::set<uint8_t> survive; // number of cells for cell to survive
 
+	const std::set <char> NUMBERS = { '1','2','3','4','5','6','7','8','9','0' };
 };

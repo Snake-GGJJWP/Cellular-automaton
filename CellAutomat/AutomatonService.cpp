@@ -1,64 +1,80 @@
-#include <iostream>
-#include <fstream>
 #include "AutomatonService.h"
+#include "AutomatDAO.h"
 
-void printMat(bool** mat, int n, int m);
-AutomatonService::AutomatonService(int n, int m) {
-	// remember field's size
-	h = n;
-	w = m;
+void printMat(uint8_t** mat, int n, int m);
 
-	// Create field;
-	// Filled with Trues by default
-	initField();
+//AutomatonService::AutomatonService(int n, int m) {
+//	// remember field's size
+//	h = n;
+//	w = m;
+//
+//	// Create field;
+//	// Filled with Trues by default
+//	initField();
+//
+//	printMat(field, h, w);
+//}
+//
+//AutomatonService::AutomatonService(int n, int m, uint8_t** inField) {
+//	h = n;
+//	w = m;
+//
+//	initField();
+//	
+//	// Copy, because someone else will have access to the field otherwise
+//	setField(inField);
+//
+//	//printMat(field, h, w);
+//}
 
-	printMat(field, n, m);
-}
+void AutomatonService::next(AutomatDTO* automat) {
 
-AutomatonService::AutomatonService(int n, int m, bool** inField) {
-	h = n;
-	w = m;
+	// printMat(automat->field, automat->height, automat->width);
 
-	initField();
-	
-	// Copy, because someone else will have access to the field otherwise
-	setField(inField);
-
-	// printMat(field, h, w);
-}
-
-void AutomatonService::next() {
-	bool** newField = new bool* [h];
-	for (int i = 0; i < h; i++) {
-		newField[i] = new bool[w];
+	uint8_t** newField = new uint8_t* [automat->height];
+	for (int i = 0; i < automat->height; i++) {
+		newField[i] = new uint8_t[automat->width];
 	}
 	
-	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
-			newField[i][j] = field[i][j];
+	for (int i = 0; i < automat->height; i++) {
+		for (int j = 0; j < automat->width; j++) {
+			newField[i][j] = automat->field[i][j];
 		}
 	}
 
 	int alive = 0;
-	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
-			alive += ((0 == j) ? false : field[i][j-1]) ? 1 : 0;
-			alive += ((w == j+1) ? false : field[i][j+1]) ? 1 : 0;
-			alive += ((0 == i) ? false : field[i-1][j]) ? 1 : 0;
-			alive += ((h == i+1) ? false : field[i+1][j]) ? 1 : 0;
-			alive += (((0 == j) || (0 == i)) ? false : field[i - 1][j - 1]) ? 1 : 0;
-			alive += (((w == j+1) || (0 == i)) ? false : field[i - 1][j + 1]) ? 1 : 0;
-			alive += (((0 == j) || (h == i+1)) ? false : field[i + 1][j - 1]) ? 1 : 0;
-			alive += (((w == j+1) || (h == i+1)) ? false : field[i + 1][j + 1]) ? 1 : 0;
+	for (int i = 0; i < automat->height; i++) {
+		for (int j = 0; j < automat->width; j++) {
+
+			// Counting living cells
+			alive += ((0 == j) ? false : automat->field[i][j-1] == 1) ? 1 : 0;
+			alive += ((automat->width == j+1) ? false : automat->field[i][j+1] == 1) ? 1 : 0;
+			alive += ((0 == i) ? false : automat->field[i-1][j] == 1) ? 1 : 0;
+			alive += ((automat->height == i+1) ? false : automat->field[i+1][j] == 1) ? 1 : 0;
+			alive += (((0 == j) || (0 == i)) ? false : automat->field[i - 1][j - 1] == 1) ? 1 : 0;
+			alive += (((automat->width == j+1) || (0 == i)) ? false : automat->field[i - 1][j + 1] == 1) ? 1 : 0;
+			alive += (((0 == j) || (automat->height == i+1)) ? false : automat->field[i + 1][j - 1] == 1) ? 1 : 0;
+			alive += (((automat->width == j+1) || (automat->height == i+1)) ? false : automat->field[i + 1][j + 1] == 1) ? 1 : 0;
+
+			// Aging conditions
+			bool isEnoughToSurvive = automat->survive.find(alive) != automat->survive.end();
+			bool isCellAlive = automat->field[i][j] == 1;
+			bool isAged = (isCellAlive && !isEnoughToSurvive) || automat->field[i][j] > 1;
+			if (isAged) {
+				newField[i][j] = automat->field[i][j] + 1;
+			}
 
 			// Death conditions
-			if (alive < 2 || alive > 3) {
-				newField[i][j] = false;
+			bool isDead = newField[i][j] > (automat->generations-1);
+			if (isDead) {
+				newField[i][j] = 0;
 			}
 			
 			// Birth conditions
-			else if (alive == 3) {
-				newField[i][j] = true;
+			bool isCellDead = automat->field[i][j] == 0;
+			bool isEnoughToBirth = automat->birth.find(alive) != automat->birth.end();
+			if (isCellDead && isEnoughToBirth) {
+				newField[i][j] = 1;
 			}
 
 			alive = 0;
@@ -66,41 +82,35 @@ void AutomatonService::next() {
 	}
 
 	// Free memory
-	for (int i = 0; i < h; i++)
+	for (int i = 0; i < automat->height; i++)
 	{
-		delete[] field[i];
+		delete[] automat->field[i];
 	}
 
-	delete[] field;
+	delete[] automat->field;
 
-	field = newField;
-
-	// printMat(field, h, w);
+	automat->field = newField;
 }
 
-void AutomatonService::setField(bool** newField) {
-	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
-			field[i][j] = newField[i][j];
-		}
-	}
+Automat* AutomatonService::read(const char* pathToFile) {
+	Automat* automat = AutomatDAO::load(pathToFile);
+	std::cout << "Giving back\n";
+	return automat;
 }
 
-void AutomatonService::initField() {
-	field = new bool* [h];
-	for (int i = 0; i < h; i++) {
-		field[i] = new bool[w];
-	}
+void AutomatonService::save(const char* pathToFile, Automat* automat) {
+	AutomatDAO::save(pathToFile, automat);
 }
 
 
-void printMat(bool** mat, int n, int m) {
+void printMat(uint8_t** mat, int n, int m) {
 	// system("CLS");
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			std::cout << (mat[i][j] ? "1" : "0") << " ";
+			std::cout << (int)mat[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 }
 

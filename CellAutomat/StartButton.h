@@ -1,24 +1,32 @@
-#pragma once
+﻿#pragma once
 #include "Button.h"
 #include "Field.h"
+#include "NumberEdit.h"
 
 class StartButton : public Button
 {
 public:
-	StartButton(Window* win, Field* destField, SDL_Rect container, char* pathToTexture, char* pathToHover);
-	void handleEvent(SDL_Event*) override;
+	StartButton(Window* win, 
+				Field* destField, 
+				SDL_Rect container, 
+				char* pathToStartTexture, 
+				char* pathToStartHover,
+				char* pathToStopTexture,
+				char* pathToStopHover);
 	void render() override;
-private:
-	bool isCursorOnButton(int, int) override;
 
-	bool isHovered = false;
-	bool isPressed = false;
+	// It won't work otherwise ¯\_(ツ)_/¯
+	void addFrameEdit(NumberEdit* frameEdit) { this->frameEdit = frameEdit; }
+
+private:
+	void onClick() override;
 
 	Field* field;
 
-	SDL_Rect container;
-	SDL_Texture* texture;
-	SDL_Texture* textureHover;
-	SDL_Renderer* renderer;
+	SDL_Texture* textureStart;
+	SDL_Texture* textureStartHover;
+	SDL_Texture* textureStop;
+	SDL_Texture* textureStopHover;
 	FrameLimitter* frameLimitter;
+	NumberEdit* frameEdit;
 };

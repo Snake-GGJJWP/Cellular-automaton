@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include <iostream>
 #include "FrameLimitter.h"
 
 typedef struct {
@@ -34,6 +35,7 @@ public:
 
 	SDL_Renderer* getRenderer() { return renderer; }
 	FrameLimitter* getFrameLimitter() { return frameLimitter; }
+	SDL_Window* getWindow() { return window; }
 
 	~Window();
 

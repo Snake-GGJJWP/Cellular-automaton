@@ -8,12 +8,6 @@
 * It's better to make scaleX and scaleY such that width and height are dividable by them
 */
 Window::Window(WindowSettings winSet) {
-	// Start SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		std::cout << "Failed to initialize..." << std::endl;
-		return;
-	}
 
 	int flag = winSet.fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
 
@@ -64,12 +58,6 @@ void Window::render() {
 	frameLimitter->wait(); // my intuition tells it's so wrong...
 
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	/*bool** field = automat->getField();
-	for (int i = 0; i < automat->getHeight(); i++) {
-		for (int j = 0; j < automat->getWidth(); j++) {
-			if (field[i][j]) { SDL_RenderDrawPoint(renderer, j, i); }
-		}
-	}*/
 }
 
 void Window::cleanRender() {

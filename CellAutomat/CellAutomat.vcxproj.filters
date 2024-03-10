@@ -13,60 +13,198 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Controllers">
+      <UniqueIdentifier>{44ab5641-341e-4df5-8e83-8840e0c04cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Services">
+      <UniqueIdentifier>{3881de00-3ceb-45ee-822c-21d96fedac8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Widgets">
+      <UniqueIdentifier>{83000ca6-44d0-422e-9f7d-515eae5bed51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Utils">
+      <UniqueIdentifier>{a5dde4c6-bed1-45cd-a714-a4cd5db78ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Widgets\Extend">
+      <UniqueIdentifier>{ed719eda-2c98-4dc6-b5fe-5435fec333f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Controllers">
+      <UniqueIdentifier>{c1bf5709-c063-42e9-917f-30a11b043521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Services">
+      <UniqueIdentifier>{58a3abe4-c6f0-4aa8-9446-c97f46dfc5c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Widgets">
+      <UniqueIdentifier>{5074d2e7-795d-490c-a5bd-5a70a2c36b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Widgets\Extend">
+      <UniqueIdentifier>{2e209c4d-6eab-414a-8e7f-4c1c789c082c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\DAO">
+      <UniqueIdentifier>{fd839ea7-9169-46da-a98c-fcd490f2d304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\DTO">
+      <UniqueIdentifier>{9bcd8729-19b9-44d3-8699-f8da2bd296c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Models">
+      <UniqueIdentifier>{0801a63d-08d7-400b-b501-b6e61f977223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\DAO">
+      <UniqueIdentifier>{0f1f532c-009b-4a30-b73e-31e83c6005ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\DTO">
+      <UniqueIdentifier>{400302ed-65af-4879-bb04-948e7c85f4ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Models">
+      <UniqueIdentifier>{9aba8488-17c1-4cd9-b414-585af6c4a34d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Mappers">
+      <UniqueIdentifier>{5b4e90b4-863a-4a53-b475-6b12dd717064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Mappers">
+      <UniqueIdentifier>{acf3d61b-8c44-4256-9606-aafdc7b8abcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Utils">
+      <UniqueIdentifier>{c2f59f24-0cc0-4570-a8b1-625435510bf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AutomatonService.cpp">
+      <Filter>Исходные файлы\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="AutomatonController.cpp">
+      <Filter>Исходные файлы\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Buton.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameLimitter.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPanel.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Исходные файлы\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyfiledialogs.c">
+      <Filter>Исходные файлы\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="StartButton.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveButton.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadButton.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPalette.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="AutomatDAO.cpp">
+      <Filter>Исходные файлы\DAO</Filter>
     </ClCompile>
-    <ClCompile Include="AutomatonService.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="AutomatMapper.cpp">
+      <Filter>Исходные файлы\Mappers</Filter>
     </ClCompile>
-    <ClCompile Include="AutomatonController.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="TextEdit.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
-    <ClCompile Include="StartButton.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="NumberEdit.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuPanel.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameLimitter.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="SetButton.cpp">
+      <Filter>Исходные файлы\Widgets\Extend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="AutomatonController.h">
+      <Filter>Файлы заголовков\Controllers</Filter>
     </ClInclude>
     <ClInclude Include="AutomatonService.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Services</Filter>
     </ClInclude>
-    <ClInclude Include="AutomatonController.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Widget.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="tinyfiledialogs.h">
+      <Filter>Файлы заголовков\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="StartButton.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="Edit.h">
+      <Filter>Файлы заголовков\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuPanel.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="FrameLimitter.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Файлы заголовков\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Файлы заголовков\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Файлы заголовков\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="StartButton.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadButton.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPanel.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveButton.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorPalette.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Файлы заголовков\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="json_fwd.hpp">
+      <Filter>Файлы заголовков\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomatDAO.h">
+      <Filter>Файлы заголовков\DAO</Filter>
+    </ClInclude>
+    <ClInclude Include="Automat.h">
+      <Filter>Файлы заголовков\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomatDTO.h">
+      <Filter>Файлы заголовков\DTO</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomatMapper.h">
+      <Filter>Файлы заголовков\Mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEdit.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberEdit.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="SetButton.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearButton.h">
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
