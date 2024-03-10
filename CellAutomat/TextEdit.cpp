@@ -13,8 +13,10 @@ TextEdit::TextEdit(Window* win,
 
 void TextEdit::setTextColorOK() {
 	textColor = textColorOK;
+	isRendered = false;
 }
 
 void TextEdit::setTextColorError() {
 	textColor = textColorError;
+	isRendered = false;
 }

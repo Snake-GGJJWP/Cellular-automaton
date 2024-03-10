@@ -41,6 +41,7 @@ void ColorPalette::setColors(std::vector<SDL_Color> colors) {
 
 		colorButtons.push_back(new ColorButton(window, field, cont, color, code++));
 	}
+	isRendered = false;
 }
 
 void ColorPalette::render() {

@@ -18,6 +18,9 @@ public:
 	virtual void printName() {
 	}
 
+	bool rendered() { return isRendered; }
+	void setRendered() { isRendered = true; }
+
 protected:
 	virtual SDL_Texture* loadTexture(const char* pathToTexture) {
 		SDL_Texture* texture = IMG_LoadTexture(window->getRenderer(), pathToTexture);
@@ -36,4 +39,5 @@ protected:
 
 	Window* window;
 	SDL_Rect container;
+	bool isRendered = false;
 };

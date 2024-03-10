@@ -48,7 +48,11 @@ Field::Field(Window* window,
 }
 
 void Field::handleEvent(SDL_Event* event) {
-	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered && event->button.button == SDL_BUTTON_LEFT && !isRunning) {
+	bool leftButtonClicked = event->type == SDL_MOUSEBUTTONDOWN && isHovered && event->button.button == SDL_BUTTON_LEFT;
+	bool leftButtonReleased = event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT;
+	bool mouseMoved = event->type == SDL_MOUSEMOTION;
+
+	if (leftButtonClicked && !isRunning) {
 		std::cout << "Field clicked!\n";
 
 		isMouseButtonPressed = true;
@@ -66,12 +70,13 @@ void Field::handleEvent(SDL_Event* event) {
 			return;
 		}
 		automat->field[fieldY][fieldX] = drawingColor;
+		isRendered = false;
 	}
-	else if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT) {
+	else if (leftButtonReleased) {
 		std::cout << "Released left button!\n";
 		isMouseButtonPressed = false;
 	}
-	else if (event->type == SDL_MOUSEMOTION) {
+	else if (mouseMoved) {
 		isHovered = isCursorOnWidget(event->motion.x, event->motion.y);
 
 		if (isHovered && !isRunning) {
@@ -84,13 +89,16 @@ void Field::handleEvent(SDL_Event* event) {
 			}
 
 			cellHovered = fieldY * automat->width + fieldX;
+			isRendered = false;
 		}
 		else {
 			cellHovered = -1;
+			isRendered = false;
 		}
 
 		if (isMouseButtonPressed && !isRunning && isHovered) {
 			automat->field[cellHovered / automat->width][cellHovered % automat->width] = drawingColor;
+			isRendered = false;
 		}
 	}
 }
@@ -99,7 +107,6 @@ void Field::render() {
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &container);
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
 	// Draw cells
 	for (int i = 0; i < automat->height; i++) {
@@ -131,6 +138,7 @@ void Field::update() {
 	}
 
 	automatonController->nextIteration(automat);
+	isRendered = false;
 }
 
 //void Field::setField() {
@@ -153,6 +161,7 @@ void Field::setAutomat(AutomatDTO* newAutomat) {
 
 	cellSize = (automat->height > automat->width) ? container.h / automat->height : container.w / automat->width;
 	setColorsForGenerations();
+	isRendered = false;
 }
 
 AutomatDTO* Field::getAutomat() {
@@ -165,6 +174,7 @@ void Field::clearField() {
 			automat->field[i][j] = 0;
 		}
 	}
+	isRendered = false;
 }
 
 SDL_Color Field::HSBtoRGB(int h, double s, double b) {

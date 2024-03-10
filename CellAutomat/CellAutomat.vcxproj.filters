@@ -204,7 +204,7 @@
       <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClInclude>
     <ClInclude Include="ClearButton.h">
-      <Filter>Исходные файлы\Widgets\Extend</Filter>
+      <Filter>Файлы заголовков\Widgets\Extend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

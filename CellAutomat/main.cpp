@@ -302,11 +302,15 @@ int main(int argc, char *argv[]) {
 		/*std::this_thread::sleep_for(std::chrono::milliseconds(30));*/
 
 		// (1) Render and present all the stuff;
-		window->cleanRender();
+		/*window->cleanRender();*/
 		window->render();
 
+		// Render only those widgets that needs to be rendered
 		for (auto widget : widgets) {
-			widget->render();
+			if (!widget->rendered()) {
+				widget->render();
+				widget->setRendered();
+			}
 		}
 
 		window->presentRender();

@@ -37,11 +37,14 @@ Edit::Edit(Window* win,
 
 
 void Edit::handleEvent(SDL_Event* event) {
-	if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT) {
+	bool leftButtonClicked = event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT;
+	bool mouseMotion = event->type == SDL_MOUSEMOTION;
+	if (leftButtonClicked) {
 		isFocused = isHovered; // if hovered then focus, if unhovered then unfocus
+		isRendered = false;
 	}
 
-	else if (event->type == SDL_MOUSEMOTION) {
+	else if (mouseMotion) {
 		isHovered = isCursorOnWidget(event->motion.x, event->motion.y);
 	}
 
@@ -125,6 +128,8 @@ void Edit::handleEvent(SDL_Event* event) {
 		}
 		break;
 	}
+
+	isRendered = false;
 }
 
 void Edit::render() {

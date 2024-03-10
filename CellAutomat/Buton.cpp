@@ -6,11 +6,16 @@ Button::Button(Window* win, SDL_Rect container) :
 {}
 
 void Button::handleEvent(SDL_Event* event) {
-	if (event->type == SDL_MOUSEBUTTONDOWN && isHovered) {
+	bool buttonClicked = event->type == SDL_MOUSEBUTTONDOWN;
+	bool mouseMotion = event->type == SDL_MOUSEMOTION;
+
+	if (buttonClicked && isHovered) {
 		onClick();
+		isRendered = false;
 	}
-	else if (event->type == SDL_MOUSEMOTION) {
+	else if (mouseMotion) {
 		isHovered = isCursorOnWidget(event->motion.x, event->motion.y);
+		isRendered = false;
 	}
 }
 

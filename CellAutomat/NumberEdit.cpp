@@ -33,8 +33,10 @@ void NumberEdit::handleEvent(SDL_Event* event) {
 
 void NumberEdit::setTextColorOK() {
 	textColor = textColorOK;
+	isRendered = false;
 }
 
 void NumberEdit::setTextColorError() {
 	textColor = textColorError;
+	isRendered = false;
 }
